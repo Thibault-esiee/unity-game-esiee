@@ -27,6 +27,8 @@ public class NPC_Enemy : MonoBehaviour {
 	// Use this for initialization
 
 	void Start () {
+		navMeshAgent.baseOffset = 1f;
+		navMeshAgent.height = 2f;
 		startingPos = transform.position;
 		hashSpeed = Animator.StringToHash ("Speed");
 		SetWeapon (weaponType);

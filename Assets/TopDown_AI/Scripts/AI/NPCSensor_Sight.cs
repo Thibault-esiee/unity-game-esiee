@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 public class NPCSensor_Sight : NPCSensor_Base {
+
 	const float SIGHT_DIRECT_ANGLE =120.0f,SIGHT_MIN_DISTANCE=0.2f,SIGHT_MAX_DISTANCE=20.0f;//,SIGHT_INDIRECT_ANGLE = 80,SIGHT_INDIRECT_DISTANCE=20.0f;
-	float height=2.0f;
+	float height=1.7f;
 	public LayerMask hitTestMask;
 	Color fovColor;
 	float TARGET_LOST_COOLDOWN=1.0f,ALERTED_COOLDOWN=10.0f,lastTargetTime=float.MinValue,lastAlertTime=float.MinValue;
@@ -13,6 +14,7 @@ public class NPCSensor_Sight : NPCSensor_Base {
 	float lastSightTime=float.MinValue;
 	float SIGHT_DELAY_TIME=0.1f; //Time a object has to stay in sight to catch our attention
 	public Color idleColor, alertedColor, attackColor;
+	
 	//TODO ADD the visual thingy
 	protected override void StartSensor(){
 		//InitFoV ();
@@ -95,14 +97,23 @@ public class NPCSensor_Sight : NPCSensor_Base {
 	
 		
 	}
-	bool TargetInSight(Transform target,float distance){
+
+	bool TargetInSight(Transform target, float distance) {
 		Vector3 sightPosition = transform.position;
 		sightPosition.y += height;
-		RaycastHit hit = new RaycastHit ();
-		Vector3 dir= target.position-sightPosition;
-		//Debug.DrawRay (headTransform.position, dir);
-		Physics.Raycast (sightPosition,dir,out hit,distance,hitTestMask);
-		return (hit.collider != null && target.gameObject == hit.collider.gameObject);
+
+		Vector3 targetPosition = target.position;
+		Vector3 dir = targetPosition - sightPosition;
+
+		float verticalAngle = Vector3.Angle(Vector3.ProjectOnPlane(dir, Vector3.up), dir);
+		if (verticalAngle > 60f)
+			return false;
+
+		RaycastHit hit;
+		if (Physics.Raycast(sightPosition, dir, out hit, distance, hitTestMask)) {
+			return hit.collider != null && target.gameObject == hit.collider.gameObject;
+		}
+		return false;
 	}
 
 	int quality = 100;
