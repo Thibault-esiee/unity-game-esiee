@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 38640b79ce706a04f9d3f88e3bce04e9
+timeCreated: 1433811973
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Animations/Gun-Idle.anim
+  uploadId: 107679

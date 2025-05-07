@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cfa6e7b5114c9554bb03a13f11497f6d
+timeCreated: 1453805808
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Models/Materials/New_Game_ObjectMat.mat
+  uploadId: 107679

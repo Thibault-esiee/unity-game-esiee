@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 972fcc6be98a2e44f80812f672428f00
+timeCreated: 1453755146
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Materials/SolidWhite_Big.mat
+  uploadId: 107679

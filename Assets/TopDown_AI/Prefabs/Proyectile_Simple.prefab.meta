@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a44d52233ec3ec94baaa1841d362d494
+timeCreated: 1433567579
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Prefabs/Proyectile_Simple.prefab
+  uploadId: 107679

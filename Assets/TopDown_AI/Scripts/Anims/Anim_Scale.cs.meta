@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: d327c73dec2454847b609794346f4463
+timeCreated: 1433816881
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Scripts/Anims/Anim_Scale.cs
+  uploadId: 107679

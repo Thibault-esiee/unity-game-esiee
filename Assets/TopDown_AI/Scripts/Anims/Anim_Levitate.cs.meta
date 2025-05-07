@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 919c9aa3dec22b24998ceb5f86b95de0
+timeCreated: 1433819969
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Scripts/Anims/Anim_Levitate.cs
+  uploadId: 107679

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9b3b20984e136664da17fddea2f32203
+timeCreated: 1453752898
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Materials/WorldModelMaterial.mat
+  uploadId: 107679

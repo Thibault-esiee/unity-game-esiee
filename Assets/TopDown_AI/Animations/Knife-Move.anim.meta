@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 19b8a14958d018449a2c79b5043e1f53
+timeCreated: 1433534386
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Animations/Knife-Move.anim
+  uploadId: 107679

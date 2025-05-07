@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 73832aaa8c36231479d113a444a3fb83
+timeCreated: 1433713885
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Animations/Death.anim
+  uploadId: 107679

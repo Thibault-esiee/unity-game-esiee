@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7de352c24e875ba45a67a5398cba5807
+timeCreated: 1433560997
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Animations/Rifle-Attack.anim
+  uploadId: 107679

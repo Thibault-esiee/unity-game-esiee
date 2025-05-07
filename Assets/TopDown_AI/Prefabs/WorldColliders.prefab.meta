@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 71dddeca7b89bfd46b30f7aa38262845
+timeCreated: 1453755794
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Prefabs/WorldColliders.prefab
+  uploadId: 107679

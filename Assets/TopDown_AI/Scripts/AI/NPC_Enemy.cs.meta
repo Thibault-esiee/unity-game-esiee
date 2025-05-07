@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 67b3857ee257cd7458c2f5eb4fbb7c62
+timeCreated: 1433010851
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Scripts/AI/NPC_Enemy.cs
+  uploadId: 107679

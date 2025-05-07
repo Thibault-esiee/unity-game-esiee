@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2625f630ac6f0294297f2b41d9e364c2
+timeCreated: 1433811974
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Animations/Gun-Attack.anim
+  uploadId: 107679

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 62b5fb11eba80a849b7cf1cb13862a74
+timeCreated: 1433534727
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Main/LightmapSnapshot.asset
+  uploadId: 107679

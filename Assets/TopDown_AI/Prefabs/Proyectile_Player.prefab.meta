@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 700d55f169d41a14896ad56d0bd5dec8
+timeCreated: 1433813591
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Prefabs/Proyectile_Player.prefab
+  uploadId: 107679

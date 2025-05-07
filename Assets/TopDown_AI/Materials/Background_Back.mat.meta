@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7ca1b740a01b8364480032743663795a
+timeCreated: 1433729871
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Materials/Background_Back.mat
+  uploadId: 107679

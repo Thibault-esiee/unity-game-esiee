@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 6a7227fe52ce36241a966a825af67103
+timeCreated: 1433558459
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Prefabs/Misc_Door.prefab
+  uploadId: 107679

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cbddc778c33b6e446a8886d683b4db3e
+timeCreated: 1433763285
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/PhysMaterial/PlayerPhysMat.physicMaterial
+  uploadId: 107679

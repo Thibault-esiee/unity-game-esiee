@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cbd7a53e75e63da4b80336435d23b06c
+timeCreated: 1432258263
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Shaders/Dissolve/PerlinNoises/Thumbs.db
+  uploadId: 107679

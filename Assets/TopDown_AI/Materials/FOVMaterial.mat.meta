@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3a003d3c913e5d2498da8502b8a57dd3
+timeCreated: 1433101513
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Materials/FOVMaterial.mat
+  uploadId: 107679

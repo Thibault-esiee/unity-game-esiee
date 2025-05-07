@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 6e89a2b5517f4c145800d61298b8c2b9
+ShaderImporter:
+  defaultTextures: []
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 54579
+  packageName: TopDown AI
+  packageVersion: 1.0
+  assetPath: Assets/TopDown_AI/Shaders/Dissolve/Dissolve2D.shader
+  uploadId: 107679
