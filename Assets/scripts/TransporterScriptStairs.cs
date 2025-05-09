@@ -42,7 +42,7 @@ public class TransporterScript : MonoBehaviour
             yield return new WaitForSeconds(0f);
             if (boxCollider != null)
             {
-                Debug.Log("Staits Locked! at floor " + floorIndex.ToString());
+                Debug.Log("Stairs Locked! at floor " + floorIndex.ToString());
                 boxCollider.isTrigger = false;
             }
         }
