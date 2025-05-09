@@ -130,7 +130,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Tiles108_2K-JPG_AmbientOcclusion_0: 6378835823073503674
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
