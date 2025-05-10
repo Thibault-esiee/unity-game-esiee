@@ -21,26 +21,41 @@ public class PlayerController : MonoBehaviour
     private CharacterController characterController;
     private Animator animator;
 
-    private bool isRunning = false;
+    private Vector2 moveInput;
+    private float currentSpeed;
 
-    void Start()
+    private void Start()
     {
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         currentSpeed = walkSpeed;
     }
 
-    void Update()
+    private void Update()
     {
         if (isDead) return;
         Move();
         Rotate();
+        HandleMovement();        
+    }
+
+    private void HandleMovement()
+    {
+        Vector3 moveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
+
+        if (moveDirection.sqrMagnitude > 0.01f)
+        {
+            Quaternion r = Quaternion.LookRotation(moveDirection, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, r, lookSensitivity);
+        }
+        characterController.Move(currentSpeed * Time.deltaTime * moveDirection.normalized);
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        moveVector = context.ReadValue<Vector2>();
-        bool isWalking = moveVector.magnitude > 0;
+        moveInput = context.ReadValue<Vector2>();
+        bool isWalking = moveInput.magnitude > 0;
+
         animator.SetBool("IsWalking", isWalking);
 
         if (!isWalking && isRunning)
