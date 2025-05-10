@@ -6,7 +6,8 @@ public class NPC_Enemy : MonoBehaviour {
 	public float inspectTimeout; //Once the npc reaches the destination, how much time unitl in goes back.
 	public UnityEngine.AI.NavMeshAgent navMeshAgent;
 	public Animator npcAnimator;
-	
+		public Animator characterAnimator;
+
     public GameObject proyectilePrefab;
 	delegate void InitState();
 	delegate void UpdateState();
@@ -25,15 +26,29 @@ public class NPC_Enemy : MonoBehaviour {
 	int hashSpeed;
 	public NPC_PatrolNode patrolNode;
 	// Use this for initialization
+	Misc_Timer patrolWaitTimer = new Misc_Timer();
+	bool patrolWaiting = false;
+	float defaultWeaponActionTime;
+	float defaultWeaponTime;
 
-	void Start () {
-		navMeshAgent.baseOffset = 1f;
-		navMeshAgent.height = 2f;
+	[Header("Patrol Settings")]
+	public float patrolWaitTimeMin = 1.5f;
+	public float patrolWaitTimeMax = 3.0f;
+
+	private bool previousIsWalking = false;
+
+	private Quaternion originalRotation;
+
+	private Transform playerTransform;
+	void Start()
+	{
 		startingPos = transform.position;
 		hashSpeed = Animator.StringToHash ("Speed");
 		SetWeapon (weaponType);
 		SetState (idleState);
 		GameManager.AddToEnemyCount ();
+
+		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 	}
 	void SetWeapon(NPC_WeaponType newWeapon){
         npcAnimator.SetTrigger("WeaponChange");
@@ -55,12 +70,25 @@ public class NPC_Enemy : MonoBehaviour {
 			weaponTime=0.75f;
 			break;
 		}
+		// defaultWeaponActionTime = weaponActionTime;
+		// defaultWeaponTime = weaponTime;
 	}
 	// Update is called once per frame
 	void Update () {
 		_updateState ();
 
 		npcAnimator.SetFloat (hashSpeed, navMeshAgent.velocity.magnitude);
+
+		float speed = navMeshAgent.velocity.magnitude;
+		bool isWalking = speed > 0.1f;
+
+		if (isWalking != previousIsWalking)
+		{
+			previousIsWalking = isWalking;
+		}
+
+		characterAnimator.SetFloat (hashSpeed, speed);
+		characterAnimator.SetBool("IsWalking", isWalking);
 	}
 	public void SetState(NPC_EnemyState newState){
 		if (currentState != newState) {
@@ -99,15 +127,34 @@ public class NPC_Enemy : MonoBehaviour {
 	
 	
 	void StateInit_IdlePatrol(){	
-		navMeshAgent.speed = 6.0f;
-		navMeshAgent.SetDestination (patrolNode.GetPosition ());
+		// navMeshAgent.speed = 6.0f;
+		// patrolWaiting = false;
+		navMeshAgent.SetDestination(patrolNode.GetPosition());
 	}
-	void StateUpdate_IdlePatrol(){	
+	void StateUpdate_IdlePatrol(){
 		if (HasReachedMyDestination ()) {
 			patrolNode=patrolNode.nextNode;
 			navMeshAgent.SetDestination (patrolNode.GetPosition ());
 		}
-		
+		// if (!patrolWaiting && HasReachedMyDestination())
+		// {
+		// 	patrolWaiting = true;
+		// 	patrolWaitTimer.StartTimer(Random.Range(patrolWaitTimeMin, patrolWaitTimeMax));
+		// 	navMeshAgent.velocity = Vector3.zero;
+		// 	navMeshAgent.isStopped = true;
+		// }
+		// else if (patrolWaiting)
+		// {
+		// 	patrolWaitTimer.UpdateTimer();
+		// 	if (patrolWaitTimer.IsFinished())
+		// 	{
+		// 		patrolNode = patrolNode.nextNode;
+		// 		navMeshAgent.SetDestination (patrolNode.GetPosition ());
+		// 		navMeshAgent.isStopped = false;
+		// 		patrolWaiting = false;
+		// 	}
+		// }
+
 	}
 	void StateEnd_IdlePatrol(){	
 	}
@@ -244,6 +291,11 @@ public class NPC_Enemy : MonoBehaviour {
 		navMeshAgent.Stop ();
 		navMeshAgent.velocity = Vector3.zero;
 		npcAnimator.SetBool ("Attack", true);		
+		characterAnimator.SetBool("IsShooting", true);
+
+		// weaponActionTime *= 0.5f;
+		// weaponTime *= 0.5f;
+
 		CancelInvoke ("AttackAction");
 		Invoke ("AttackAction", weaponActionTime);
 		attackActionTimer.StartTimer (weaponTime);
@@ -260,6 +312,10 @@ public class NPC_Enemy : MonoBehaviour {
 	}
 	void StateEnd_Attack(){	
 		npcAnimator.SetBool ("Attack", false);
+		characterAnimator.SetBool("IsShooting", false);
+
+		// weaponActionTime = defaultWeaponActionTime;
+		// weaponTime = defaultWeaponTime;
 	}
 	void EndAttack(){
 		SetState (NPC_EnemyState.INSPECT);

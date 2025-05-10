@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float runSpeed = 3f;
     [SerializeField] private float lookSenesitivity = 5f;
 
+    private bool isDead = false;
+    [SerializeField] private GameObject deathBody;
+    [SerializeField] private GameObject playerModel;
     private float currentSpeed;
 
     private Vector2 moveVector;
@@ -29,6 +32,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (isDead) return;
         Move();
         Rotate();
     }
@@ -39,7 +43,6 @@ public class PlayerController : MonoBehaviour
         bool isWalking = moveVector.magnitude > 0;
         animator.SetBool("IsWalking", isWalking);
 
-        // Met à jour IsRunning seulement si on bouge
         if (!isWalking && isRunning)
         {
             isRunning = false;
@@ -50,7 +53,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnRun(InputAction.CallbackContext context)
     {
-        if (context.performed && moveVector.magnitude > 0) // On ne toggle que si on marche
+        if (context.performed && moveVector.magnitude > 0)
         {
             isRunning = !isRunning;
             currentSpeed = isRunning ? runSpeed : walkSpeed;
@@ -75,5 +78,25 @@ public class PlayerController : MonoBehaviour
     {
         rotation.y += LookVector.x * lookSenesitivity * Time.deltaTime;
         transform.localEulerAngles = rotation;
+    }
+
+    public void Die()
+    {
+        if (isDead) return;
+
+        isDead = true;
+
+        animator.SetTrigger("Die_first");
+
+        if (playerModel != null)
+            playerModel.SetActive(false);
+
+        if (deathBody != null)
+            deathBody.SetActive(true);
+
+        this.enabled = false;
+
+        if (TryGetComponent<CharacterController>(out var cc))
+            cc.enabled = false;
     }
 }

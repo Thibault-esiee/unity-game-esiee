@@ -3,7 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 public class NPCSensor_Sight : NPCSensor_Base {
 
-	const float SIGHT_DIRECT_ANGLE =120.0f,SIGHT_MIN_DISTANCE=0.2f,SIGHT_MAX_DISTANCE=20.0f;//,SIGHT_INDIRECT_ANGLE = 80,SIGHT_INDIRECT_DISTANCE=20.0f;
+	const float SIGHT_DIRECT_ANGLE = 120.0f;//,SIGHT_INDIRECT_ANGLE = 80,SIGHT_INDIRECT_DISTANCE=20.0f;
+	const float SIGHT_MIN_DISTANCE = 0.2f;
+	const float SIGHT_MAX_DISTANCE = 20.0f;
+
+	// [Header("Sight Settings")]
+	// [SerializeField] private float SIGHT_DIRECT_ANGLE = 120.0f;
+	// [SerializeField] private float SIGHT_MIN_DISTANCE = 0.2f;
+	// [SerializeField] private float SIGHT_MAX_DISTANCE = 20.0f;
 	float height=1.7f;
 	public LayerMask hitTestMask;
 	Color fovColor;
@@ -14,7 +21,8 @@ public class NPCSensor_Sight : NPCSensor_Base {
 	float lastSightTime=float.MinValue;
 	float SIGHT_DELAY_TIME=0.1f; //Time a object has to stay in sight to catch our attention
 	public Color idleColor, alertedColor, attackColor;
-	
+	public Animator characterAnimator;
+
 	//TODO ADD the visual thingy
 	protected override void StartSensor(){
 		//InitFoV ();
@@ -38,9 +46,13 @@ public class NPCSensor_Sight : NPCSensor_Base {
 				if ( objAngle < SIGHT_DIRECT_ANGLE && TargetInSight (overlapedObjects [i].transform, SIGHT_MAX_DISTANCE )) {
 					npcBase.SetTargetPos(overlapedObjects [i].transform.position);
 					material.SetColor ("_Color", attackColor);	
+
+					characterAnimator.SetBool("IsShooting", true);
 				}
 				else{
 					material.SetColor ("_Color", idleColor);	
+
+					characterAnimator.SetBool("IsShooting", false);
 				}
 			/*	if (objAngle < SIGHT_INDIRECT_ANGLE && TargetInSight (overlapedObjects [i].transform, SIGHT_INDIRECT_DISTANCE / 2.0f)) {
 					if(!somethingSpotted){
