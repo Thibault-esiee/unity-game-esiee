@@ -130,7 +130,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Tiles079_1K-JPG_Color_0: 7624509168855245008
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

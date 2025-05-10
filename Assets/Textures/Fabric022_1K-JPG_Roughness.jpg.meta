@@ -130,7 +130,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Fabric022_1K-JPG_Roughness_0: 5292046467177861156
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

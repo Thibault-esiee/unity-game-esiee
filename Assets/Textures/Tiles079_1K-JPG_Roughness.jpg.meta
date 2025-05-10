@@ -130,7 +130,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Tiles079_1K-JPG_Roughness_0: 7306279274961577332
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

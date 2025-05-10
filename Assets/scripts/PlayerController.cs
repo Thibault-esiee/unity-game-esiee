@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
     private Vector2 moveInput;
-    private float currentSpeed;
+    //private float currentSpeed;
 
     private void Start()
     {
