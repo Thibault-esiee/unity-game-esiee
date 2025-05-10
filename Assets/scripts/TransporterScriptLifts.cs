@@ -9,7 +9,7 @@ public class TransporterScriptLifts : MonoBehaviour
     public string sceneName;
     public string playerTag = "Player";
     public bool isTransporting = false;
-    public Image fadeImage;
+    public UnityEngine.UI.Image fadeImage;
     public AudioSource bgFX;
 
     private BoxCollider boxCollider;
