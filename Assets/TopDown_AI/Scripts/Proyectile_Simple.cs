@@ -24,21 +24,36 @@ public class Proyectile_Simple : MonoBehaviour {
 	
 
 	}
-	void OnCollisionEnter(Collision collision){
-		if (collisionTarget== CollisionTarget.PLAYER  && collision.gameObject.tag == "Player") {
-			// collision.gameObject.GetComponent<PlayerBehavior>().DamagePlayer();
-			collision.gameObject.GetComponent<PlayerController>().Die();
+	// void OnCollisionEnter(Collision collision){
+	// 	if (collisionTarget== CollisionTarget.PLAYER  && collision.gameObject.tag == "Player") {
+	// 		// collision.gameObject.GetComponent<PlayerBehavior>().DamagePlayer();
+	// 		collision.gameObject.GetComponent<PlayerController>().Die();
             
+    //     }
+    //     else if (collisionTarget == CollisionTarget.ENEMIES && collision.gameObject.tag == "Enemy") {
+	// 		collision.gameObject.GetComponent<NPC_Enemy>().Damage();            
+    //     }
+    //     else if(collision.gameObject.tag == "Finish"){ //This is to detect if the proyectile collides with the world, i used this tag because it is standard in Unity (To prevent asset importing issues)
+    //         DestroyProyectile();
+    //     }
+    // }
+
+	void OnTriggerEnter(Collider other){
+        if (collisionTarget == CollisionTarget.PLAYER && other.CompareTag("Player")) {
+            var player = other.GetComponent<PlayerController>();
+            if (player != null) {
+                player.Die();
+            }
         }
-        else if (collisionTarget == CollisionTarget.ENEMIES && collision.gameObject.tag == "Enemy") {
-			collision.gameObject.GetComponent<NPC_Enemy>().Damage();            
+        else if (collisionTarget == CollisionTarget.ENEMIES && other.CompareTag("Enemy")) {
+            var enemy = other.GetComponent<NPC_Enemy>();
+            if (enemy != null) {
+                enemy.Damage();
+            }
         }
-        else if(collision.gameObject.tag == "Finish"){ //This is to detect if the proyectile collides with the world, i used this tag because it is standard in Unity (To prevent asset importing issues)
+        else if (other.CompareTag("Finish")) {
             DestroyProyectile();
         }
-        
-
-
     }
 //     void OnTriggerEnter(Collider other){
 //         if (collisionTarget == CollisionTarget.PLAYER && other.CompareTag("Player")){

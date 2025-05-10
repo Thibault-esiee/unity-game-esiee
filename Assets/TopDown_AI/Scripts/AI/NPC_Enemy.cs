@@ -40,13 +40,17 @@ public class NPC_Enemy : MonoBehaviour {
 	private Quaternion originalRotation;
 
 	private Transform playerTransform;
+
+	public float defaultSpeed = 1.0f;
+
+	private bool isPausedBySensor = false;
+
 	void Start()
 	{
 		startingPos = transform.position;
 		hashSpeed = Animator.StringToHash ("Speed");
 		SetWeapon (weaponType);
 		SetState (idleState);
-		GameManager.AddToEnemyCount ();
 
 		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 	}
@@ -66,8 +70,8 @@ public class NPC_Enemy : MonoBehaviour {
 			break;
 		case NPC_WeaponType.SHOTGUN:
 			weaponRange=20.0f;
-			weaponActionTime=0.35f;
-			weaponTime=0.75f;
+			weaponActionTime=0.15f;
+			weaponTime=0.35f;
 			break;
 		}
 		// defaultWeaponActionTime = weaponActionTime;
@@ -131,30 +135,26 @@ public class NPC_Enemy : MonoBehaviour {
 		// patrolWaiting = false;
 		navMeshAgent.SetDestination(patrolNode.GetPosition());
 	}
-	void StateUpdate_IdlePatrol(){
-		if (HasReachedMyDestination ()) {
-			patrolNode=patrolNode.nextNode;
-			navMeshAgent.SetDestination (patrolNode.GetPosition ());
+	void StateUpdate_IdlePatrol()
+	{
+		if (!patrolWaiting && HasReachedMyDestination())
+		{
+			patrolWaiting = true;
+			patrolWaitTimer.StartTimer(2.0f);
+			navMeshAgent.velocity = Vector3.zero;
+			navMeshAgent.isStopped = true;
 		}
-		// if (!patrolWaiting && HasReachedMyDestination())
-		// {
-		// 	patrolWaiting = true;
-		// 	patrolWaitTimer.StartTimer(Random.Range(patrolWaitTimeMin, patrolWaitTimeMax));
-		// 	navMeshAgent.velocity = Vector3.zero;
-		// 	navMeshAgent.isStopped = true;
-		// }
-		// else if (patrolWaiting)
-		// {
-		// 	patrolWaitTimer.UpdateTimer();
-		// 	if (patrolWaitTimer.IsFinished())
-		// 	{
-		// 		patrolNode = patrolNode.nextNode;
-		// 		navMeshAgent.SetDestination (patrolNode.GetPosition ());
-		// 		navMeshAgent.isStopped = false;
-		// 		patrolWaiting = false;
-		// 	}
-		// }
-
+		else if (patrolWaiting)
+		{
+			patrolWaitTimer.UpdateTimer();
+			if (patrolWaitTimer.IsFinished())
+			{
+				patrolNode = patrolNode.nextNode;
+				navMeshAgent.SetDestination(patrolNode.GetPosition());
+				navMeshAgent.isStopped = false;
+				patrolWaiting = false;
+			}
+		}
 	}
 	void StateEnd_IdlePatrol(){	
 	}
@@ -282,6 +282,7 @@ public class NPC_Enemy : MonoBehaviour {
 		}
 	}
 	void StateEnd_Inspect(){	
+		navMeshAgent.speed = defaultSpeed;
 	}
 
 	///////////////////////////////////////////////////////// STATE: ATTACK
@@ -313,6 +314,7 @@ public class NPC_Enemy : MonoBehaviour {
 	void StateEnd_Attack(){	
 		npcAnimator.SetBool ("Attack", false);
 		characterAnimator.SetBool("IsShooting", false);
+		navMeshAgent.speed = defaultSpeed;
 
 		// weaponActionTime = defaultWeaponActionTime;
 		// weaponTime = defaultWeaponTime;
