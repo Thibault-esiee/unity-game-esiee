@@ -1,0 +1,514 @@
+fileFormatVersion: 2
+guid: a010cb54b48c4a54c999403810127ebd
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -994546201360942371
+    second: BgSub_Interact_0
+  - first:
+      213: -6825474828288819080
+    second: BgSub_Interact_1
+  - first:
+      213: 4193528050840902500
+    second: BgSub_Interact_2
+  - first:
+      213: 4237532715292789573
+    second: BgSub_Interact_3
+  - first:
+      213: -7693130287012264050
+    second: BgSub_Interact_4
+  - first:
+      213: -633833059859398333
+    second: BgSub_Interact_5
+  - first:
+      213: 2098261834707818535
+    second: BgSub_Interact_6
+  - first:
+      213: -4686022967912119800
+    second: BgSub_Interact_7
+  - first:
+      213: -5996148815645352138
+    second: BgSub_Interact_8
+  - first:
+      213: 4232767795957113470
+    second: BgSub_Interact_9
+  - first:
+      213: -9083155332322777577
+    second: BgSub_Interact_10
+  - first:
+      213: 3970219184309917403
+    second: BgSub_Interact_11
+  - first:
+      213: 762760282961868946
+    second: BgSub_Interact_12
+  - first:
+      213: 6137749519543099584
+    second: BgSub_Interact_13
+  - first:
+      213: -5287502281053356286
+    second: BgSub_Interact_14
+  - first:
+      213: -1529628772398290928
+    second: BgSub_Interact_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: BgSub_Interact_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 401
+        width: 808
+        height: 623
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ddaba2bcf79a232f0800000000000000
+      internalID: -994546201360942371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BgSub_Interact_1
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 247
+        width: 64
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 870897c7eca0741a0800000000000000
+      internalID: -6825474828288819080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BgSub_Interact_2
+      rect:
+        serializedVersion: 2
+        x: 368
+        y: 271
+        width: 42
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46b12024b87623a30800000000000000
+      internalID: 4193528050840902500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BgSub_Interact_3
+      rect:
+        serializedVersion: 2
+        x: 407
+        y: 271
+        width: 64
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54b8f1b9d8dbeca30800000000000000
+      internalID: 4237532715292789573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BgSub_Interact_4
+      rect:
+        serializedVersion: 2
+        x: 470
+        y: 271
+        width: 57
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e87c5df83c28c3590800000000000000
+      internalID: -7693130287012264050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BgSub_Interact_5
+      rect:
+        serializedVersion: 2
+        x: 528
+        y: 271
+        width: 56
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3418e24b03c2437f0800000000000000
+      internalID: -633833059859398333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BgSub_Interact_6
+      rect:
+        serializedVersion: 2
+        x: 611
+        y: 271
+        width: 47
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 728d48785068e1d10800000000000000
+      internalID: 2098261834707818535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BgSub_Interact_7
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 271
+        width: 66
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 802c64430f6e7feb0800000000000000
+      internalID: -4686022967912119800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BgSub_Interact_8
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 212
+        width: 23
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63f541fcb6669cca0800000000000000
+      internalID: -5996148815645352138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BgSub_Interact_9
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 142
+        width: 47
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e72acbe52efcdba30800000000000000
+      internalID: 4232767795957113470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BgSub_Interact_10
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 142
+        width: 105
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 716a431995622f180800000000000000
+      internalID: -9083155332322777577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BgSub_Interact_11
+      rect:
+        serializedVersion: 2
+        x: 306
+        y: 142
+        width: 22
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd6db31205d091730800000000000000
+      internalID: 3970219184309917403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BgSub_Interact_12
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 142
+        width: 60
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 298f7b2af6ed59a00800000000000000
+      internalID: 762760282961868946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BgSub_Interact_13
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 142
+        width: 65
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c0e0b83baaad2550800000000000000
+      internalID: 6137749519543099584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BgSub_Interact_14
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 142
+        width: 42
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20f3fb490b40f96b0800000000000000
+      internalID: -5287502281053356286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BgSub_Interact_15
+      rect:
+        serializedVersion: 2
+        x: 548
+        y: 142
+        width: 61
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 018abfe5cbaa5cae0800000000000000
+      internalID: -1529628772398290928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      BgSub_Interact_0: -994546201360942371
+      BgSub_Interact_1: -6825474828288819080
+      BgSub_Interact_10: -9083155332322777577
+      BgSub_Interact_11: 3970219184309917403
+      BgSub_Interact_12: 762760282961868946
+      BgSub_Interact_13: 6137749519543099584
+      BgSub_Interact_14: -5287502281053356286
+      BgSub_Interact_15: -1529628772398290928
+      BgSub_Interact_2: 4193528050840902500
+      BgSub_Interact_3: 4237532715292789573
+      BgSub_Interact_4: -7693130287012264050
+      BgSub_Interact_5: -633833059859398333
+      BgSub_Interact_6: 2098261834707818535
+      BgSub_Interact_7: -4686022967912119800
+      BgSub_Interact_8: -5996148815645352138
+      BgSub_Interact_9: 4232767795957113470
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
