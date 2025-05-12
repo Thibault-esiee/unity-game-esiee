@@ -1,0 +1,8 @@
+﻿title: Start
+---
+<<show_portrait "Unknown">>
+Unknown:    Welcome to UNEXPECTED DELIVERY
+Controls are Z,Q,S,D. Space to skip line of dialogs.
+You got a pizza to deliver.. Better not linger here too much.
+<<hide_portrait>>
+===
