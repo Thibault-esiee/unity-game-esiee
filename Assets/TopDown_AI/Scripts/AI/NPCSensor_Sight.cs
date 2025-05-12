@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 public class NPCSensor_Sight : NPCSensor_Base {
 
-	const float SIGHT_DIRECT_ANGLE = 120.0f;//,SIGHT_INDIRECT_ANGLE = 80,SIGHT_INDIRECT_DISTANCE=20.0f;
-	const float SIGHT_MIN_DISTANCE = 0.2f;
-	const float SIGHT_MAX_DISTANCE = 20.0f;
+	// const float SIGHT_DIRECT_ANGLE = 120.0f;//,SIGHT_INDIRECT_ANGLE = 80,SIGHT_INDIRECT_DISTANCE=20.0f;
+	// const float SIGHT_MIN_DISTANCE = 0.2f;
+	// const float SIGHT_MAX_DISTANCE = 20.0f;
 
-	// [Header("Sight Settings")]
-	// [SerializeField] private float SIGHT_DIRECT_ANGLE = 120.0f;
-	// [SerializeField] private float SIGHT_MIN_DISTANCE = 0.2f;
-	// [SerializeField] private float SIGHT_MAX_DISTANCE = 20.0f;
+	[Header("Sight Settings")]
+	[SerializeField] private float SIGHT_DIRECT_ANGLE = 30.0f;
+	[SerializeField] private float SIGHT_MIN_DISTANCE = 0.2f;
+	[SerializeField] private float SIGHT_MAX_DISTANCE = 20.0f;
 	float height=1.7f;
 	public LayerMask hitTestMask;
 	Color fovColor;
@@ -23,6 +23,7 @@ public class NPCSensor_Sight : NPCSensor_Base {
 	public Color idleColor, alertedColor, attackColor;
 	public Animator characterAnimator;
 
+
 	//TODO ADD the visual thingy
 	protected override void StartSensor(){
 		//InitFoV ();
@@ -33,84 +34,59 @@ public class NPCSensor_Sight : NPCSensor_Base {
 		//UpdateFoV ();
 	}
 	bool targetSpotted=false;
-	void GetTargetInSight(){
-		Collider[] overlapedObjects= Physics.OverlapSphere (transform.position, SIGHT_MAX_DISTANCE);
-	
+	void GetTargetInSight()
+	{
+		Collider[] overlapedObjects = Physics.OverlapSphere(transform.position, SIGHT_MAX_DISTANCE);
 
+		bool playerSpotted = false;
+		Transform playerTransform = null;
 
-	
-		for (int i=0; i<overlapedObjects.Length; i++) {
-			Vector3 direction = overlapedObjects [i].transform.position - transform.position;
-			float objAngle = Vector3.Angle (direction, transform.forward);
-			if (overlapedObjects [i].tag == "Player") { 
-				if ( objAngle < SIGHT_DIRECT_ANGLE && TargetInSight (overlapedObjects [i].transform, SIGHT_MAX_DISTANCE )) {
-					npcBase.SetTargetPos(overlapedObjects [i].transform.position);
-					material.SetColor ("_Color", attackColor);	
+		for (int i = 0; i < overlapedObjects.Length; i++)
+		{
+			if (overlapedObjects[i].tag == "Player")
+			{
+				playerTransform = overlapedObjects[i].transform;
+				Vector3 direction = playerTransform.position - transform.position;
+				float objAngle = Vector3.Angle(direction, transform.forward);
+				float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
 
-					characterAnimator.SetBool("IsShooting", true);
+				if (objAngle < SIGHT_DIRECT_ANGLE && TargetInSight(playerTransform, SIGHT_MAX_DISTANCE))
+				{
+					playerSpotted = true;
+
+					NPC_Enemy enemy = npcBase as NPC_Enemy;
+
+					if (enemy != null && distanceToPlayer <= enemy.minAttackDistance)
+					{
+						material.SetColor("_Color", attackColor);
+						characterAnimator.SetBool("IsShooting", true);
+
+						npcBase.SetTargetPos(playerTransform.position);
+					}
+					else
+					{
+						material.SetColor("_Color", alertedColor);
+						npcBase.SetTargetPos(playerTransform.position);
+					}
 				}
-				else{
-					material.SetColor ("_Color", idleColor);	
-
+				else
+				{
+					material.SetColor("_Color", idleColor);
 					characterAnimator.SetBool("IsShooting", false);
 				}
-			/*	if (objAngle < SIGHT_INDIRECT_ANGLE && TargetInSight (overlapedObjects [i].transform, SIGHT_INDIRECT_DISTANCE / 2.0f)) {
-					if(!somethingSpotted){
-						lastSightTime=Time.time;
-						somethingSpotted=true;
-					}
-					if(lastSightTime+SIGHT_DELAY_TIME>Time.time){ //Cant react yet
-						return;
-					}
-
-					_lastTargetPos = overlapedObjects [i].transform.position;
-					material.SetColor ("_Color", Color.magenta);
-					npcBase.SetTargetPos (_lastTargetPos);
-					lastAlertTime=Time.time;
-					if(!alerted){
-						//npcBase.SetStatusCondition(NPC_Condition.ALERTED, true);	
-						alerted=true;
-					}
-				}
-				if (alerted && objAngle < SIGHT_DIRECT_ANGLE && TargetInSight (overlapedObjects [i].transform, SIGHT_DIRECT_DISTANCE / 2.0f)) {																							
-						
-						_lastTargetPos = overlapedObjects [i].transform.position;
-						material.SetColor ("_Color", Color.red);						
-						npcBase.SetTargetPos (_lastTargetPos);
-						lastTargetTime = Time.time;
-						lastAlertTime=Time.time;
-						if(!targetSpotted){
-							//npcBase.SetStatusCondition(NPC_Condition.HAS_TARGET, true);								
-							targetSpotted = true;
-						}
-						
-				} */
-
-			}	else{
-				material.SetColor ("_Color", idleColor);	
-				//somethingSpotted=false;
-			}			
+			}
 		}
-		if (alerted && lastAlertTime + ALERTED_COOLDOWN < Time.time) {
-			material.SetColor ("_Color", Color.green);
-			alerted=false;
-			//npcBase.SetStatusCondition(NPC_Condition.ALERTED, false);	
-		}
-		if (alerted && targetSpotted && lastTargetTime + TARGET_LOST_COOLDOWN < Time.time) {
-				if(alerted)
-					material.SetColor ("_Color", Color.magenta);
-				else
-					material.SetColor ("_Color", Color.green);	
-				targetSpotted=false;
-				//npcBase.SetStatusCondition(NPC_Condition.HAS_TARGET, false);
 
-		} 
-				
-	
-		
+		if (!playerSpotted && targetSpotted)
+		{
+			material.SetColor("_Color", idleColor);
+			characterAnimator.SetBool("IsShooting", false);
+		}
+
+		targetSpotted = playerSpotted;
 	}
-
-	bool TargetInSight(Transform target, float distance) {
+	bool TargetInSight(Transform target, float distance)
+	{
 		Vector3 sightPosition = transform.position;
 		sightPosition.y += height;
 
@@ -118,14 +94,28 @@ public class NPCSensor_Sight : NPCSensor_Base {
 		Vector3 dir = targetPosition - sightPosition;
 
 		float verticalAngle = Vector3.Angle(Vector3.ProjectOnPlane(dir, Vector3.up), dir);
-		if (verticalAngle > 60f)
+		if (verticalAngle > 75f)
 			return false;
 
+		bool lineOfSight = false;
+
 		RaycastHit hit;
-		if (Physics.Raycast(sightPosition, dir, out hit, distance, hitTestMask)) {
-			return hit.collider != null && target.gameObject == hit.collider.gameObject;
+		if (Physics.Raycast(sightPosition, dir, out hit, distance, hitTestMask))
+		{
+			lineOfSight = hit.collider != null && target.gameObject == hit.collider.gameObject;
 		}
-		return false;
+
+		if (!lineOfSight)
+		{
+			Vector3 slightlyHigher = sightPosition;
+			slightlyHigher.y += 0.5f;
+			if (Physics.Raycast(slightlyHigher, dir, out hit, distance, hitTestMask))
+			{
+				lineOfSight = hit.collider != null && target.gameObject == hit.collider.gameObject;
+			}
+		}
+
+		return lineOfSight;
 	}
 
 	int quality = 100;

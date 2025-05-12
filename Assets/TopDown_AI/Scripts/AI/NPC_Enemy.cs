@@ -45,12 +45,18 @@ public class NPC_Enemy : MonoBehaviour {
 
 	private bool isPausedBySensor = false;
 
+	private float checkPlayerTimer = 0f;
+	private float checkPlayerInterval = 0.5f;
+
+	public float minAttackDistance = 3.0f;
+
 	void Start()
 	{
 		startingPos = transform.position;
 		hashSpeed = Animator.StringToHash ("Speed");
 		SetWeapon (weaponType);
 		SetState (idleState);
+		//GameManager.AddToEnemyCount ();
 
 		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 	}
@@ -58,11 +64,11 @@ public class NPC_Enemy : MonoBehaviour {
         npcAnimator.SetTrigger("WeaponChange");
 		npcAnimator.SetInteger ("WeaponType", (int)weaponType);
 		switch (weaponType) {
-			case NPC_WeaponType.KNIFE:
-				weaponRange=1.0f;
-				weaponActionTime=0.2f;
-				weaponTime=0.4f;
-			break;
+			//case NPC_WeaponType.KNIFE:
+			//	weaponRange=1.0f;
+			//	weaponActionTime=0.2f;
+			//	weaponTime=0.4f;
+			//break;
 			case NPC_WeaponType.RIFLE:
 				weaponRange=20.0f;
 				weaponActionTime=0.025f;
@@ -78,10 +84,12 @@ public class NPC_Enemy : MonoBehaviour {
 		// defaultWeaponTime = weaponTime;
 	}
 	// Update is called once per frame
-	void Update () {
-		_updateState ();
+	void Update()
+	{
+		_updateState();
+		CheckForPlayerInRange();
 
-		npcAnimator.SetFloat (hashSpeed, navMeshAgent.velocity.magnitude);
+		npcAnimator.SetFloat(hashSpeed, navMeshAgent.velocity.magnitude);
 
 		float speed = navMeshAgent.velocity.magnitude;
 		bool isWalking = speed > 0.1f;
@@ -91,7 +99,7 @@ public class NPC_Enemy : MonoBehaviour {
 			previousIsWalking = isWalking;
 		}
 
-		characterAnimator.SetFloat (hashSpeed, speed);
+		characterAnimator.SetFloat(hashSpeed, speed);
 		characterAnimator.SetBool("IsWalking", isWalking);
 	}
 	public void SetState(NPC_EnemyState newState){
@@ -255,30 +263,54 @@ public class NPC_Enemy : MonoBehaviour {
 		inspectTimer.StopTimer ();
 		inspectWait = false;
 	}
-	void StateUpdate_Inspect(){	
+	void StateUpdate_Inspect()
+	{
+		GameObject player = GameObject.FindGameObjectWithTag("Player");
+		float distanceToPlayer = player != null ? Vector3.Distance(transform.position, player.transform.position) : float.MaxValue;
 
+		if (player != null && distanceToPlayer <= minAttackDistance)
+		{
+			SetState(NPC_EnemyState.ATTACK);
+			return;
+		}
 
-		if (HasReachedMyDestination () && !inspectWait) {
-			inspectWait=true;
-			inspectTimer.StartTimer (2.0f);
+		if (!HasReachedMyDestination() && player != null)
+		{
+			Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
+			Vector3 targetPosition = player.transform.position - directionToPlayer * minAttackDistance;
+
+			navMeshAgent.SetDestination(targetPosition);
+		}
+		else if (!inspectWait && HasReachedMyDestination())
+		{
+			inspectWait = true;
+			inspectTimer.StartTimer(2.0f);
 			inspectTurnTimer.StartTimer(1.0f);
 		}
-		navMeshAgent.SetDestination (targetPos);
-		RaycastHit hit = new RaycastHit ();
-		Physics.Raycast (transform.position,transform.forward, out hit,weaponRange,hitTestLayer);
+		else
+		{
+			navMeshAgent.SetDestination(targetPos);
+		}
 
-		if (hit.collider != null && hit.collider.tag == "Player") {
+		RaycastHit hit = new RaycastHit();
+		Physics.Raycast(transform.position, transform.forward, out hit, weaponRange, hitTestLayer);
+
+		if (hit.collider != null && hit.collider.tag == "Player")
+		{
 			SetState(NPC_EnemyState.ATTACK);
 		}
-		if (inspectWait) {
-			inspectTimer.UpdateTimer ();
+
+		if (inspectWait)
+		{
+			inspectTimer.UpdateTimer();
 			inspectTurnTimer.UpdateTimer();
-			if (inspectTurnTimer.IsFinished ()) {
-				RandomRotate ();
-				inspectTurnTimer.StartTimer (Random.Range (0.5f, 1.25f));
+			if (inspectTurnTimer.IsFinished())
+			{
+				RandomRotate();
+				inspectTurnTimer.StartTimer(Random.Range(0.5f, 1.25f));
 			}
-			if (inspectTimer.IsFinished ())
-				SetState (idleState);
+			if (inspectTimer.IsFinished())
+				SetState(idleState);
 		}
 	}
 	void StateEnd_Inspect(){	
@@ -288,21 +320,21 @@ public class NPC_Enemy : MonoBehaviour {
 	///////////////////////////////////////////////////////// STATE: ATTACK
 	Misc_Timer attackActionTimer=new Misc_Timer();
 	bool actionDone;
-	void StateInit_Attack(){	
-		navMeshAgent.Stop ();
+	void StateInit_Attack()
+	{
+		navMeshAgent.isStopped = true;
 		navMeshAgent.velocity = Vector3.zero;
-		npcAnimator.SetBool ("Attack", true);		
+
+		npcAnimator.SetBool("Attack", true);
 		characterAnimator.SetBool("IsShooting", true);
 
-		// weaponActionTime *= 0.5f;
-		// weaponTime *= 0.5f;
-
-		CancelInvoke ("AttackAction");
-		Invoke ("AttackAction", weaponActionTime);
-		attackActionTimer.StartTimer (weaponTime);
+		CancelInvoke("AttackAction");
+		Invoke("AttackAction", weaponActionTime);
+		attackActionTimer.StartTimer(weaponTime);
 
 		actionDone = false;
 	}
+
 	void StateUpdate_Attack(){	
 		attackActionTimer.UpdateTimer ();
 		if (!actionDone && attackActionTimer.IsFinished ()) {
@@ -378,10 +410,37 @@ public class NPC_Enemy : MonoBehaviour {
 			SetTargetPos(newPos);
 		}
 	}
-	public void SetTargetPos(Vector3 newPos){
-		targetPos = newPos;
-		if (currentState != NPC_EnemyState.ATTACK ) {
-			SetState (NPC_EnemyState.INSPECT);
+	public void SetTargetPos(Vector3 newPos)
+	{
+		GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+		if (player != null && player.transform.position == newPos)
+		{
+			float distanceToPlayer = Vector3.Distance(transform.position, newPos);
+
+			if (distanceToPlayer <= minAttackDistance)
+			{
+				targetPos = transform.position;
+				if (currentState != NPC_EnemyState.ATTACK)
+				{
+					SetState(NPC_EnemyState.ATTACK);
+				}
+				return;
+			}
+			else
+			{
+				Vector3 directionToPlayer = (newPos - transform.position).normalized;
+				targetPos = newPos - directionToPlayer * minAttackDistance;
+			}
+		}
+		else
+		{
+			targetPos = newPos;
+		}
+
+		if (currentState != NPC_EnemyState.ATTACK)
+		{
+			SetState(NPC_EnemyState.INSPECT);
 		}
 	}
 	public void Damage(){
@@ -397,4 +456,59 @@ public class NPC_Enemy : MonoBehaviour {
 		Destroy (gameObject);
 	}
 
+	void CheckForPlayerInRange()
+	{
+		if (currentState == NPC_EnemyState.INSPECT)
+		{
+			checkPlayerTimer += Time.deltaTime;
+
+			if (checkPlayerTimer >= checkPlayerInterval)
+			{
+				checkPlayerTimer = 0f;
+
+				GameObject player = GameObject.FindGameObjectWithTag("Player");
+				if (player != null)
+				{
+					float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+
+					if (distanceToPlayer <= minAttackDistance)
+					{
+						SetState(NPC_EnemyState.ATTACK);
+						return;
+					}
+
+					Collider[] colliders = Physics.OverlapSphere(transform.position, weaponRange, hitTestLayer);
+					foreach (Collider col in colliders)
+					{
+						if (col.CompareTag("Player"))
+						{
+							Vector3 dirToPlayer = (col.transform.position - transform.position).normalized;
+							float angle = Vector3.Angle(transform.forward, dirToPlayer);
+
+							if (angle < 60f)
+							{
+								RaycastHit hit;
+								if (Physics.Raycast(transform.position, dirToPlayer, out hit, weaponRange, hitTestLayer))
+								{
+									if (hit.collider != null && hit.collider.CompareTag("Player"))
+									{
+										if (distanceToPlayer > minAttackDistance)
+										{
+											Vector3 targetPosition = player.transform.position - dirToPlayer * minAttackDistance;
+											navMeshAgent.SetDestination(targetPosition);
+										}
+										else
+										{
+											SetState(NPC_EnemyState.ATTACK);
+										}
+										break;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
