@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float walkSpeed = 1f;
     [SerializeField] private float runSpeed = 3f;
-    [SerializeField] private float lookSenesitivity = 5f;
+    [SerializeField] private float lookSensitivity = 5f;
 
     private bool isDead = false;
     [SerializeField] private GameObject deathBody;
@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 moveInput;
     //private float currentSpeed;
+
+    private bool isRunning = false;
 
     private void Start()
     {
@@ -91,12 +93,13 @@ public class PlayerController : MonoBehaviour
 
     private void Rotate()
     {
-        rotation.y += LookVector.x * lookSenesitivity * Time.deltaTime;
+        rotation.y += LookVector.x * lookSensitivity * Time.deltaTime;
         transform.localEulerAngles = rotation;
     }
 
     public void Die()
     {
+        Debug.Log("Player touché");
         if (isDead) return;
 
         isDead = true;
