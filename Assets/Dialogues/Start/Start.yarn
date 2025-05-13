@@ -1,8 +1,8 @@
 ﻿title: Start
 ---
 <<show_portrait "Unknown">>
-Unknown:    Welcome to UNEXPECTED DELIVERY
-Controls are Z,Q,S,D. Space to skip line of dialogs.
-You got a pizza to deliver.. Better not linger here too much.
+Delizza:    You've got a pizza to deliver. Better not linger here too long.
+Delizza:    The boss of this office is one of our greatest clients.
+Delizza:    So head to the boss's office at the top of the building to deliver the pizza while it's still hot.
 <<hide_portrait>>
 ===

@@ -1,0 +1,6 @@
+﻿title: NoStair
+---
+<<show_portrait "sbire_01">>
+Agent:    You should take the elevator.
+<<hide_portrait>>
+===
