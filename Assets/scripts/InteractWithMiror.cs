@@ -1,130 +1,117 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
-using Yarn.Unity;
+using Cinemachine;
 
 public class InteractWithMiror : MonoBehaviour
 {
-    public DialogueRunner dRunner;
-    public string playerTag = "Player";
-    public string firstDialogueName = "Start";
-    public string secondDialogueName = "Start";
-    public MonoBehaviour playerControllerScript;
-    public string sceneName;
-    public bool isTransporting = false;
-    public Image fadeImage;
-    public PlayerInput playerInput;
+    [Header("Choose the way you want to trigger the event")]
+    [Tooltip("By using a tag, default: Player")]
+    [SerializeField]
+    private string otherTag = "Player";
+    [Tooltip("By using a GameObject, default: null")]
+    [SerializeField]
+    private GameObject GameObject;
 
-    private BoxCollider boxCollider;
-    private bool ran = false;
-    private GameObject playerInTrigger;
-    private bool isFirstDialogueComplete = false;
-    private bool isSecondDialogueComplete = false;
+    [Header("Choose the image that will be used to display the indicator")]
+    [SerializeField]
+    private Image interactImage;
 
+    [SerializeField]
+    [Header("Virtual Camera (cinemachine)")]
+    private CinemachineVirtualCamera virtualCamera;
+    
+    private bool interacting = false;
+    private bool insideRange = false;
+
+
+    private Transform originalLookAt;
+    private Transform originalFollow;
+    private Quaternion originalRotation;
+    private Vector3 originalPosition;
+    
+    // Start is called before the first frame update
     void Start()
     {
-        if (dRunner == null)
+        if (interactImage != null)
         {
-            Debug.LogError("No DialogueRunner assigned to DialogueTransitionManager.");
-            return;
+            if (interactImage.enabled)
+            {
+                interactImage.enabled = false;
+            }
+        }
+    }
+
+    // Update is called once per frame
+
+    void Update()
+    {
+        if (insideRange && !interacting)
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                interacting = true;
+                interactImage.enabled = false;
+
+                if (virtualCamera != null)
+                {
+
+                    originalLookAt = virtualCamera.LookAt;
+                    originalFollow = virtualCamera.Follow;
+                    originalRotation = virtualCamera.transform.rotation;
+                    originalPosition = virtualCamera.transform.position;
+
+                    virtualCamera.Follow = null;
+                    virtualCamera.LookAt = transform;
+                    
+                    Vector3 directionToTarget = transform.position - virtualCamera.transform.position;
+                    directionToTarget.y = 0;
+                    virtualCamera.transform.rotation = Quaternion.LookRotation(directionToTarget, Vector3.up);
+
+                    Vector3 loweredPosition = virtualCamera.transform.position;
+                    loweredPosition.y = transform.position.y;
+                    virtualCamera.transform.position = loweredPosition;
+                    
+                    StartCoroutine(ResetCameraAfterDelay(2f));
+                }
+            }
         }
 
-        dRunner.onDialogueStart.AddListener(OnDialogueStart);
-        dRunner.onDialogueComplete.AddListener(OnDialogueEnd);
+    }
 
-        boxCollider = GetComponent<BoxCollider>();
-        
-        if (fadeImage != null)
+    private IEnumerator ResetCameraAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        interacting = false;
+
+        if (virtualCamera)
         {
-            fadeImage.color = new Color(0, 0, 0, 0);
+            virtualCamera.LookAt = originalLookAt;
+            virtualCamera.Follow = originalFollow;
+            virtualCamera.transform.rotation = originalRotation;
+            virtualCamera.transform.position = originalPosition;
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (ran || dRunner == null || string.IsNullOrEmpty(firstDialogueName)) return;
-
-        if (other.CompareTag(playerTag))
+        if (other != null)
         {
-            playerInTrigger = other.gameObject;
-            dRunner.StartDialogue(firstDialogueName);
-            ran = true;
+            bool f = GameObject ? GameObject.Equals(other.gameObject) : false;
+            if (other.CompareTag(otherTag) || f)
+            {
+                GameObject = other.gameObject;
+                interactImage.enabled = true;
+                insideRange = true;
+            }
         }
     }
 
-    private void OnDialogueStart()
+    private void OnTriggerExit(Collider other)
     {
-        if (playerControllerScript != null)
-            playerControllerScript.enabled = false;
-
-        if (playerInput != null)
-            playerInput.enabled = false;
-    }
-
-    private void OnDialogueEnd()
-    {
-        if (!isFirstDialogueComplete)
-        {
-            isFirstDialogueComplete = true;
-            StartCoroutine(FadeOutAndStartSecondDialogue());
-        }
-        else if (!isSecondDialogueComplete)
-        {
-            isSecondDialogueComplete = true;
-            StartCoroutine(TransitionToNewScene());
-        }
-    }
-
-    private IEnumerator FadeOutAndStartSecondDialogue()
-    {
-        yield return StartCoroutine(FadeOut());
-        
-        if (dRunner != null && !string.IsNullOrEmpty(secondDialogueName))
-        {
-            dRunner.StartDialogue(secondDialogueName);
-        }
-        else
-        {
-            StartCoroutine(TransitionToNewScene());
-        }
-    }
-
-    private IEnumerator TransitionToNewScene()
-    {
-        isTransporting = true;
-
-        yield return new WaitForSeconds(0.5f);
-
-        if (boxCollider != null)
-        {
-            boxCollider.isTrigger = false;
-            Debug.Log("Entrance locked.");
-        }
-
-        SceneManager.LoadScene(sceneName);
-    }
-
-    private IEnumerator FadeOut()
-    {
-        float elTime = 0f;
-        float fadeDuration = 2f;
-        Color startColor = new Color(0, 0, 0, 0);
-        Color endColor = new Color(0, 0, 0, 1);
-
-        while (elTime < fadeDuration)
-        {
-            float t = elTime / fadeDuration;
-
-            if (fadeImage != null)
-                fadeImage.color = Color.Lerp(startColor, endColor, t);
-
-            elTime += Time.deltaTime;
-            yield return null;
-        }
-
-        if (fadeImage != null)
-            fadeImage.color = endColor;
+        insideRange = false;
+        interactImage.enabled = false;
     }
 }
