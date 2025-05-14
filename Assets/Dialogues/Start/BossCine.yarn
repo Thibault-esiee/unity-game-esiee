@@ -1,0 +1,7 @@
+﻿title: BossCine
+---
+<<show_portrait "Boss">>
+Boss:    Well done, pizza boy. Here's your payment.
+Boss:    Now take the stairs and leave the building quietly.
+<<hide_portrait>>
+===

@@ -26,12 +26,12 @@ public class NPCSensor_Sight : NPCSensor_Base {
 
 	//TODO ADD the visual thingy
 	protected override void StartSensor(){
-		//InitFoV ();
-		material.SetColor ("_Color", Color.green);	
+		InitFoV ();
+		material.SetColor ("_Color", Color.white);	
 	}
 	protected override void UpdateSensor(){
 		GetTargetInSight ();
-		//UpdateFoV ();
+		UpdateFoV ();
 	}
 	bool targetSpotted=false;
 	void GetTargetInSight()
@@ -222,6 +222,7 @@ public class NPCSensor_Sight : NPCSensor_Base {
 		mesh.vertices = vertices;
 		mesh.triangles = triangles;
 		mesh.RecalculateNormals ();
+		material.SetColor("_Color", new Color(1f, 1f, 1f, 0.3f));
 		Graphics.DrawMesh(mesh, Vector3.zero, Quaternion.identity, material, 0);
 	}
 	
