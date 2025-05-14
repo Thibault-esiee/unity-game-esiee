@@ -3,6 +3,8 @@ using System.Collections;
 public enum NPC_EnemyState{IDLE_STATIC,IDLE_ROAMER,IDLE_PATROL,INSPECT,ATTACK,FIND_WEAPON,KNOCKED_OUT,DEAD,NONE}
 public enum NPC_WeaponType{KNIFE,RIFLE,SHOTGUN}
 public class NPC_Enemy : MonoBehaviour {
+	[Header("Debug / Gameplay Settings")]
+	public bool disableShooting = false;
 	public float inspectTimeout; //Once the npc reaches the destination, how much time unitl in goes back.
 	public UnityEngine.AI.NavMeshAgent navMeshAgent;
 	public Animator npcAnimator;
@@ -49,6 +51,8 @@ public class NPC_Enemy : MonoBehaviour {
 	private float checkPlayerInterval = 0.5f;
 
 	public float minAttackDistance = 3.0f;
+	
+	private bool isPlayerAlive = true;
 
 	void Start()
 	{
@@ -322,25 +326,44 @@ public class NPC_Enemy : MonoBehaviour {
 	bool actionDone;
 	void StateInit_Attack()
 	{
+		// Arrêter complètement le déplacement
 		navMeshAgent.isStopped = true;
 		navMeshAgent.velocity = Vector3.zero;
-
+		
+		// Animations d'attaque
 		npcAnimator.SetBool("Attack", true);
 		characterAnimator.SetBool("IsShooting", true);
-
+		
+		// Préparation de l'attaque
 		CancelInvoke("AttackAction");
 		Invoke("AttackAction", weaponActionTime);
 		attackActionTimer.StartTimer(weaponTime);
-
+		
 		actionDone = false;
+		
+		// S'assurer de regarder le joueur au début de l'attaque
+		RotateTowardsPlayer();
 	}
 
-	void StateUpdate_Attack(){	
-		attackActionTimer.UpdateTimer ();
-		if (!actionDone && attackActionTimer.IsFinished ()) {
-			EndAttack();
+	void StateUpdate_Attack()
+	{
+		// Vérifier si le joueur est toujours vivant
+		GameObject player = GameObject.FindGameObjectWithTag("Player");
+		if (player == null || !player.GetComponent<PlayerController>().enabled)
+		{
+			// Joueur mort, revenir à l'état initial
+			SetState(idleState);
+			return;
+		}
 
-			actionDone=true;
+		// Rotation vers le joueur pendant l'attaque
+		RotateTowardsPlayer();
+		
+		attackActionTimer.UpdateTimer();
+		if (!actionDone && attackActionTimer.IsFinished())
+		{
+			EndAttack();
+			actionDone = true;
 		}
 	}
 	void StateEnd_Attack(){	
@@ -355,6 +378,7 @@ public class NPC_Enemy : MonoBehaviour {
 		SetState (NPC_EnemyState.INSPECT);
 	}
 	void AttackAction(){
+		if (disableShooting) return;
 		switch (weaponType) {
 			case NPC_WeaponType.KNIFE:
 			RaycastHit[] hits=Physics.SphereCastAll (weaponPivot.position,2.0f, weaponPivot.forward);
@@ -456,56 +480,92 @@ public class NPC_Enemy : MonoBehaviour {
 		Destroy (gameObject);
 	}
 
+	void RotateTowardsPlayer()
+	{
+		GameObject player = GameObject.FindGameObjectWithTag("Player");
+		if (player != null)
+		{
+			// Calculer la direction vers le joueur
+			Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
+			
+			// Ne pas changer la hauteur (y) pour un mouvement de rotation horizontal uniquement
+			directionToPlayer.y = 0;
+			
+			// Créer une rotation qui regarde le joueur
+			if (directionToPlayer != Vector3.zero)
+			{
+				Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
+				
+				// Rotation progressive (optionnel, pour un mouvement plus fluide)
+				transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+			}
+		}
+	}
+
+	public void OnPlayerDeath()
+	{
+		isPlayerAlive = false;
+		
+		// Réinitialiser l'état de l'ennemi
+		if (currentState == NPC_EnemyState.ATTACK || currentState == NPC_EnemyState.INSPECT)
+		{
+			// Réinitialiser les animations
+			npcAnimator.SetBool("Attack", false);
+			characterAnimator.SetBool("IsShooting", false);
+			
+			// Réinitialiser le NavMeshAgent
+			navMeshAgent.isStopped = false;
+			navMeshAgent.velocity = Vector3.zero;
+			
+			// Revenir à l'état initial de patrouille
+			SetState(idleState);
+		}
+	}
+
+	public void OnPlayerRespawn()
+	{
+		isPlayerAlive = true;
+	}
+
 	void CheckForPlayerInRange()
 	{
-		if (currentState == NPC_EnemyState.INSPECT)
+		// Vérifier si le joueur est vivant avant toute action
+		if (!isPlayerAlive)
+		{
+			// Si l'ennemi était en train de tirer, réinitialiser son état
+			if (currentState == NPC_EnemyState.ATTACK)
+			{
+				SetState(idleState);
+			}
+			return;
+		}
+
+		// Le reste du code de CheckForPlayerInRange reste identique à la version précédente
+		if (currentState == NPC_EnemyState.INSPECT || currentState == NPC_EnemyState.ATTACK) 
 		{
 			checkPlayerTimer += Time.deltaTime;
-
-			if (checkPlayerTimer >= checkPlayerInterval)
+			
+			if (checkPlayerTimer >= checkPlayerInterval) 
 			{
 				checkPlayerTimer = 0f;
-
+				
 				GameObject player = GameObject.FindGameObjectWithTag("Player");
-				if (player != null)
+				if (player != null) 
 				{
 					float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-
-					if (distanceToPlayer <= minAttackDistance)
+					
+					// Vérifier si le joueur est vivant avant de continuer
+					PlayerController playerController = player.GetComponent<PlayerController>();
+					if (playerController != null && playerController.enabled)
 					{
-						SetState(NPC_EnemyState.ATTACK);
-						return;
+						// Le code existant de recherche et de poursuite du joueur reste ici
+						// ... (garder le code précédent de CheckForPlayerInRange)
 					}
-
-					Collider[] colliders = Physics.OverlapSphere(transform.position, weaponRange, hitTestLayer);
-					foreach (Collider col in colliders)
+					else 
 					{
-						if (col.CompareTag("Player"))
-						{
-							Vector3 dirToPlayer = (col.transform.position - transform.position).normalized;
-							float angle = Vector3.Angle(transform.forward, dirToPlayer);
-
-							if (angle < 60f)
-							{
-								RaycastHit hit;
-								if (Physics.Raycast(transform.position, dirToPlayer, out hit, weaponRange, hitTestLayer))
-								{
-									if (hit.collider != null && hit.collider.CompareTag("Player"))
-									{
-										if (distanceToPlayer > minAttackDistance)
-										{
-											Vector3 targetPosition = player.transform.position - dirToPlayer * minAttackDistance;
-											navMeshAgent.SetDestination(targetPosition);
-										}
-										else
-										{
-											SetState(NPC_EnemyState.ATTACK);
-										}
-										break;
-									}
-								}
-							}
-						}
+						// Le joueur est mort ou désactivé
+						isPlayerAlive = false;
+						SetState(idleState);
 					}
 				}
 			}

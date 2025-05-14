@@ -1,34 +1,37 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class TransporterScript : MonoBehaviour
 {
-    public GameObject player;
     public string sceneName;
     public string playerTag = "Player";
-    public string playerSpawnPointTag = "PlayerSpawnPoint";
-    public string playerSpawnPointName = "PlayerSpawnPoint";
     public bool isTransporting = false;
-    public int floorIndex;
-
+    public Image fadeImage;
     private BoxCollider boxCollider;
+    public MonoBehaviour playerControllerScript;
+    public PlayerInput playerInput;
 
     void Start()
     {
         boxCollider = GetComponent<BoxCollider>();
+
+        if (fadeImage != null)
+        {
+            fadeImage.color = new Color(0, 0, 0, 0);
+        }
+
+        OnTransportEnd(); 
     }
 
-    public void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag(playerTag) && !isTransporting)
+        if (!isTransporting && other.CompareTag(playerTag))
         {
-            Debug.Log("Trigger");
-            
-
+            Debug.Log("Player entered lift trigger.");
             StartCoroutine(ActivateTransportBarrier());
-            Debug.Log("Transporting player to " + sceneName);
-            // SceneManager.LoadScene(sceneName);
         }
     }
 
@@ -36,22 +39,66 @@ public class TransporterScript : MonoBehaviour
     {
         isTransporting = true;
 
-
-        if (floorIndex == 1)
-        {
-            yield return new WaitForSeconds(0f);
-            if (boxCollider != null)
-            {
-                Debug.Log("Stairs Locked! at floor " + floorIndex.ToString());
-                boxCollider.isTrigger = false;
-            }
-        }
-
         yield return new WaitForSeconds(0.5f);
 
         if (boxCollider != null)
         {
             boxCollider.isTrigger = false;
+            Debug.Log("Lift entrance locked.");
         }
+
+        OnTransportStart();
+
+        yield return StartCoroutine(FadeOut());
+
+        SceneManager.LoadScene(sceneName);
+    }
+
+    private IEnumerator FadeOut()
+    {
+        float elTime = 0f;
+
+        Color oColor = new Color(0, 0, 0, 0);
+        Color nColor = new Color(0, 0, 0, 1);
+
+        while (elTime < 2f)
+        {
+            float t = elTime / 2f;
+
+            if (fadeImage != null)
+            {
+                fadeImage.color = Color.Lerp(oColor, nColor, t);
+            }
+
+            elTime += Time.deltaTime;
+            yield return null;
+        }
+
+        if (fadeImage != null)
+        {
+            fadeImage.color = nColor;
+        }
+    }
+
+    private void OnTransportStart()
+    {
+        if (playerControllerScript != null)
+            playerControllerScript.enabled = false;
+
+        if (playerInput != null)
+            playerInput.enabled = false;
+
+        Debug.Log("Transport started.");
+    }
+
+    private void OnTransportEnd()
+    {
+        if (playerControllerScript != null)
+            playerControllerScript.enabled = true;
+
+        if (playerInput != null)
+            playerInput.enabled = true;
+
+        Debug.Log("Transport ended.");
     }
 }

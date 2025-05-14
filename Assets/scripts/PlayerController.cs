@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
 
     private bool isRunning = false;
 
+    public GameObject DeathBody { get => deathBody; }
+
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -37,7 +39,6 @@ public class PlayerController : MonoBehaviour
     {
         if (isDead) return;
         Move();
-        Rotate();
         HandleMovement();        
     }
 
@@ -90,11 +91,47 @@ public class PlayerController : MonoBehaviour
     {
         LookVector = context.ReadValue<Vector2>();
     }
-
-    private void Rotate()
+    public void OnRespawn(InputAction.CallbackContext context)
     {
-        rotation.y += LookVector.x * lookSensitivity * Time.deltaTime;
-        transform.localEulerAngles = rotation;
+        PlayerRespawnManager respawnManager = FindObjectOfType<PlayerRespawnManager>();
+        if (respawnManager != null)
+        {
+            respawnManager.TryRespawn();
+        }
+    }
+
+    public bool IsPlayerAlive()
+    {
+        return !isDead;
+    }
+
+    public void Respawn()
+    {
+        // Réactiver le modèle du joueur
+        if (playerModel != null)
+            playerModel.SetActive(true);
+
+        // Désactiver le corps mort
+        if (deathBody != null)
+            deathBody.SetActive(false);
+
+        // Réactiver le contrôleur
+        this.enabled = true;
+
+        // Réactiver le CharacterController
+        if (TryGetComponent<CharacterController>(out var cc))
+            cc.enabled = true;
+
+        // Réinitialiser l'état de mort
+        isDead = false;
+
+        // Réinitialiser l'animation
+        if (animator != null)
+        {
+            animator.SetBool("IsWalking", false);
+            animator.SetBool("IsRunning", false);
+            animator.ResetTrigger("Die_first");
+        }
     }
 
     public void Die()
@@ -116,5 +153,19 @@ public class PlayerController : MonoBehaviour
 
         if (TryGetComponent<CharacterController>(out var cc))
             cc.enabled = false;
+
+        NPC_Enemy[] enemies = FindObjectsOfType<NPC_Enemy>();
+        foreach (NPC_Enemy enemy in enemies)
+        {
+            enemy.OnPlayerDeath();
+        }
+
+        PlayerRespawnManager respawnManager = FindObjectOfType<PlayerRespawnManager>();
+        if (respawnManager != null && respawnManager.gameObject.activeInHierarchy)
+        {
+            GameObject respawnUI = GameObject.FindGameObjectWithTag("RespawnUI");
+            if (respawnUI != null)
+                respawnUI.SetActive(true);
+        }
     }
 }
