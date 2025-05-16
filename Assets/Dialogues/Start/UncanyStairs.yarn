@@ -7,8 +7,8 @@
 Bob:    Huuuuush !
 <<hide_portrait>>
 <<show_portrait "???">>
-Bob:    By the way, these stairs are strange — one stairway on each side?
-Bob:    Shouldn't all the stairways be in the same place?
+????:    By the way, these stairs are strange — one stairway on each side?
+????:    Shouldn't all the stairways be in the same place?
 <<hide_portrait>>
 <<show_portrait "Bob">>
 Bob:    ...
