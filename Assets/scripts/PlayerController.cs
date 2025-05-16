@@ -22,9 +22,16 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
     private Vector2 moveInput;
-    //private float currentSpeed;
-
     private bool isRunning = false;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource footstepsAudioSource;
+    [SerializeField] private AudioClip[] walkFootstepSounds;
+    [SerializeField] private AudioClip[] runFootstepSounds;
+    [SerializeField] private float walkStepInterval = 0.5f;
+    [SerializeField] private float runStepInterval = 0.3f;
+    private float footstepTimer = 0f;
+    private float currentStepInterval;
 
     public GameObject DeathBody { get => deathBody; }
 
@@ -33,13 +40,24 @@ public class PlayerController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         currentSpeed = walkSpeed;
+
+        if (footstepsAudioSource == null)
+        {
+            footstepsAudioSource = gameObject.AddComponent<AudioSource>();
+            footstepsAudioSource.playOnAwake = false;
+            footstepsAudioSource.spatialBlend = 1.0f;
+            footstepsAudioSource.volume = 1.5f;
+        }
+
+        currentStepInterval = walkStepInterval;
     }
 
     private void Update()
     {
         if (isDead) return;
         Move();
-        HandleMovement();        
+        HandleMovement();
+        HandleFootsteps();
     }
 
     private void HandleMovement()
@@ -54,6 +72,46 @@ public class PlayerController : MonoBehaviour
         characterController.Move(currentSpeed * Time.deltaTime * moveDirection.normalized);
     }
 
+    private void HandleFootsteps()
+    {
+        if (moveInput.sqrMagnitude > 0.01f)
+        {
+            
+            footstepTimer += Time.deltaTime;
+
+            
+            if (footstepTimer >= currentStepInterval)
+            {
+                PlayFootstepSound();
+                footstepTimer = 0f;
+            }
+        }
+        else
+        {
+            
+            footstepTimer = 0f;
+        }
+    }
+
+    private void PlayFootstepSound()
+    {
+        if (footstepsAudioSource == null) return;
+
+        AudioClip[] currentFootstepSounds = isRunning ? runFootstepSounds : walkFootstepSounds;
+        
+        if (currentFootstepSounds == null || currentFootstepSounds.Length == 0) return;
+
+        
+        int randomIndex = Random.Range(0, currentFootstepSounds.Length);
+        AudioClip footstepSound = currentFootstepSounds[randomIndex];
+
+        if (footstepSound != null)
+        {
+            footstepsAudioSource.clip = footstepSound;
+            footstepsAudioSource.Play();
+        }
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
@@ -65,6 +123,7 @@ public class PlayerController : MonoBehaviour
         {
             isRunning = false;
             currentSpeed = walkSpeed;
+            currentStepInterval = walkStepInterval;
             animator.SetBool("IsRunning", false);
         }
     }
@@ -75,6 +134,7 @@ public class PlayerController : MonoBehaviour
         {
             isRunning = !isRunning;
             currentSpeed = isRunning ? runSpeed : walkSpeed;
+            currentStepInterval = isRunning ? runStepInterval : walkStepInterval;
             animator.SetBool("IsRunning", isRunning);
 
             Debug.Log("Shift pressé. isRunning = " + isRunning);
@@ -91,6 +151,7 @@ public class PlayerController : MonoBehaviour
     {
         LookVector = context.ReadValue<Vector2>();
     }
+    
     public void OnRespawn(InputAction.CallbackContext context)
     {
         PlayerRespawnManager respawnManager = FindObjectOfType<PlayerRespawnManager>();
@@ -107,25 +168,25 @@ public class PlayerController : MonoBehaviour
 
     public void Respawn()
     {
-        // Réactiver le modèle du joueur
+        
         if (playerModel != null)
             playerModel.SetActive(true);
 
-        // Désactiver le corps mort
+        
         if (deathBody != null)
             deathBody.SetActive(false);
 
-        // Réactiver le contrôleur
+        
         this.enabled = true;
 
-        // Réactiver le CharacterController
+        
         if (TryGetComponent<CharacterController>(out var cc))
             cc.enabled = true;
 
-        // Réinitialiser l'état de mort
+        
         isDead = false;
 
-        // Réinitialiser l'animation
+        
         if (animator != null)
         {
             animator.SetBool("IsWalking", false);
