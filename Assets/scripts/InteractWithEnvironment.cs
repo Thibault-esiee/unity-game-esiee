@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Cinemachine;
+using UnityEngine.InputSystem;
 
 public class InteractWithEnvironment : MonoBehaviour
 {
+    [Header("Object to set isTrigger after interaction")]
+    [SerializeField]
+    private GameObject objectToSetTrigger;
     [Header("Choose the way you want to trigger the event")]
     [Tooltip("By using a tag, default: Player")]
     [SerializeField]
@@ -18,20 +21,25 @@ public class InteractWithEnvironment : MonoBehaviour
     [SerializeField]
     private Image interactImage;
 
+    [Header("Canvas to display when interacting")]
     [SerializeField]
-    [Header("Virtual Camera (cinemachine)")]
-    private CinemachineVirtualCamera virtualCamera;
-    
+    private Canvas interactionCanvas;
+
+    [Header("Enemies to activate")]
+    [SerializeField]
+    private GameObject enemy1;
+
+    [SerializeField]
+    private GameObject enemy2;
+
+    [Header("Player to disactivate")]
+    public MonoBehaviour playerControllerScript;
+    public PlayerInput playerInput;
+
     private bool interacting = false;
     private bool insideRange = false;
 
 
-    private Transform originalLookAt;
-    private Transform originalFollow;
-    private Quaternion originalRotation;
-    private Vector3 originalPosition;
-    
-    // Start is called before the first frame update
     void Start()
     {
         if (interactImage != null)
@@ -41,9 +49,12 @@ public class InteractWithEnvironment : MonoBehaviour
                 interactImage.enabled = false;
             }
         }
-    }
 
-    // Update is called once per frame
+        if (interactionCanvas != null)
+        {
+            interactionCanvas.gameObject.SetActive(false);
+        }
+    }
 
     void Update()
     {
@@ -54,52 +65,54 @@ public class InteractWithEnvironment : MonoBehaviour
                 interacting = true;
                 interactImage.enabled = false;
 
-                if (virtualCamera != null)
+                if (interactionCanvas != null)
                 {
-                    if (GameObject !=  null) { GameObject.SetActive(false); }
 
-                    originalLookAt = virtualCamera.LookAt;
-                    originalFollow = virtualCamera.Follow;
-                    originalRotation = virtualCamera.transform.rotation;
-                    originalPosition = virtualCamera.transform.position;
+                    OnInteractStart();
 
-                    virtualCamera.Follow = null;
-                    virtualCamera.LookAt = transform;
-                    
-                    Vector3 directionToTarget = transform.position - virtualCamera.transform.position;
-                    directionToTarget.y = 0;
-                    virtualCamera.transform.rotation = Quaternion.LookRotation(directionToTarget, Vector3.up);
+                    interactionCanvas.gameObject.SetActive(true);
 
-                    Vector3 loweredPosition = virtualCamera.transform.position;
-                    loweredPosition.y = transform.position.y;
-                    virtualCamera.transform.position = loweredPosition;
-                    
-                    StartCoroutine(ResetCameraAfterDelay(2f));
+                    if (enemy1 != null)
+                    {
+                        var agent1 = enemy1.GetComponent<UnityEngine.AI.NavMeshAgent>();
+                        if (agent1 != null) agent1.enabled = true;
+                    }
+
+                    if (enemy2 != null)
+                    {
+                        var agent2 = enemy2.GetComponent<UnityEngine.AI.NavMeshAgent>();
+                        if (agent2 != null) agent2.enabled = true;
+                    }
+
+                    StartCoroutine(HideCanvasAfterDelay(3f));
                 }
+                Collider collider = GetComponent<Collider>();
+                if (collider != null) collider.enabled = false;
             }
         }
-
     }
 
-    private IEnumerator ResetCameraAfterDelay(float delay)
+    private IEnumerator HideCanvasAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
 
         interacting = false;
 
-        if (virtualCamera)
+        if (interactionCanvas != null)
         {
-            virtualCamera.LookAt = originalLookAt;
-            virtualCamera.Follow = originalFollow;
-            virtualCamera.transform.rotation = originalRotation;
-            virtualCamera.transform.position = originalPosition;
+            interactionCanvas.gameObject.SetActive(false);
+            OnInteractEnd();
         }
 
-        if (GameObject)
+        if (objectToSetTrigger != null)
         {
-            GameObject.SetActive(true);
-            GameObject = null;
+            var collider = objectToSetTrigger.GetComponent<BoxCollider>();
+            if (collider != null)
+            {
+                collider.enabled = true;
+            }
         }
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -120,5 +133,23 @@ public class InteractWithEnvironment : MonoBehaviour
     {
         insideRange = false;
         interactImage.enabled = false;
+    }
+    
+    private void OnInteractStart()
+    {
+        if (playerControllerScript != null)
+            playerControllerScript.enabled = false;
+
+        if (playerInput != null)
+            playerInput.enabled = false;
+    }
+
+    private void OnInteractEnd()
+    {
+        if (playerControllerScript != null)
+            playerControllerScript.enabled = true;
+
+        if (playerInput != null)
+            playerInput.enabled = true;
     }
 }

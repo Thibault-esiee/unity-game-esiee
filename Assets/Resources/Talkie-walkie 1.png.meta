@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 1e6b41e566e7f4c8786a9d522d9b2b63
+guid: 4249744ec34cc4a2689a66da65329de6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6209825189696078393
-    second: Talkie-walkie_0
+      213: -8864081689765065642
+    second: Talkie-walkie 1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Talkie-walkie_0
+      name: Talkie-walkie 1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -114,8 +114,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7cd74ea14e442d9a0800000000000000
-      internalID: -6209825189696078393
+      spriteID: 65c4285caa47cf480800000000000000
+      internalID: -8864081689765065642
       vertices: []
       indices: 
       edges: []

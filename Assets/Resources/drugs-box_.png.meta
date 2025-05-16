@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 1e6b41e566e7f4c8786a9d522d9b2b63
+guid: 5a82158c81b804b3e91ed6c9e508be6e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6209825189696078393
-    second: Talkie-walkie_0
+      213: -8604936046792311155
+    second: drugs-box__0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Talkie-walkie_0
+      name: drugs-box__0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1024
-        height: 1024
+        x: 92
+        y: 136
+        width: 844
+        height: 738
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -114,8 +114,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7cd74ea14e442d9a0800000000000000
-      internalID: -6209825189696078393
+      spriteID: d8e7dff9140259880800000000000000
+      internalID: -8604936046792311155
       vertices: []
       indices: 
       edges: []
