@@ -1,11 +1,12 @@
-﻿title: ArmyContact1
+﻿title: ArmyContact3
 ---
-<<show_portrait "spy_talkie">>
-???: We need that guy. Otherwise we're done for. 
+<<show_portrait "Bob">>
+Bob: ...
 <<hide_portrait>>
-<<show_portrait "spy_talkie">>
-??: He has the tools. Now to see the final decision.
+<<show_portrait "Unknown">>
+????: 7862. Precisely.
 <<hide_portrait>>
+
 <<show_portrait "Bob">>
 Bob: ...
 <<hide_portrait>>

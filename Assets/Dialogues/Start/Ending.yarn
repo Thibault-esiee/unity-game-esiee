@@ -1,0 +1,27 @@
+﻿title: Ending
+---
+<<show_portrait "Bob">>
+Bob: ...
+Bob: This is too hard.
+<<hide_portrait>>
+
+<<show_portrait "spy_talkie">>
+???: Now's the chance..
+<<hide_portrait>>
+
+<<show_portrait "Bob">>
+Bob: You won. I'll take that drug.
+<<hide_portrait>>
+
+<<show_portrait "spy_talkie">>
+??: Told you he'd make it.
+<<hide_portrait>>
+
+<<show_portrait "Unknown">>
+????: So that's how it all began, right?
+<<hide_portrait>>
+
+<<show_portrait "Bob">>
+Bob: Maybe..
+<<hide_portrait>>
+===
