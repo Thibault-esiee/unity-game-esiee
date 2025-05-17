@@ -32,11 +32,14 @@ public class InteractWithEnvironment : MonoBehaviour
     [SerializeField]
     private GameObject enemy2;
 
-    [Header("Player to disactivate")]
+    [Header("Player to deactivate")]
     public MonoBehaviour playerControllerScript;
     public PlayerInput playerInput;
 
+    [Header("Debug Values")]
+    [SerializeField]
     private bool interacting = false;
+    [SerializeField]
     private bool insideRange = false;
 
 
@@ -97,6 +100,7 @@ public class InteractWithEnvironment : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         interacting = false;
+        insideRange = false;
 
         if (interactionCanvas != null)
         {
@@ -122,6 +126,7 @@ public class InteractWithEnvironment : MonoBehaviour
             bool f = GameObject ? GameObject.Equals(other.gameObject) : false;
             if (other.CompareTag(otherTag) || f)
             {
+                Debug.Log("Entered Range");
                 GameObject = other.gameObject;
                 interactImage.enabled = true;
                 insideRange = true;
@@ -131,6 +136,7 @@ public class InteractWithEnvironment : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        Debug.Log("Exited Range");
         insideRange = false;
         interactImage.enabled = false;
     }

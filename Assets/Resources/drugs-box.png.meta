@@ -130,7 +130,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      drugs-box_0: -6322944810130955772
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

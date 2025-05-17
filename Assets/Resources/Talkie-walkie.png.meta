@@ -130,7 +130,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Talkie-walkie_0: -6209825189696078393
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
