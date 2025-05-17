@@ -35,6 +35,7 @@ public class StartDialogueTrigger : MonoBehaviour
         {
             if (dRunner != null && !string.IsNullOrEmpty(dialogName))
             {
+                Debug.Log("Name of GO Attached: " + gameObject.name);
                 dRunner.StartDialogue(dialogName);
                 ran = true;
             }

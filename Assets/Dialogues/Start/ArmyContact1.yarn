@@ -1,0 +1,19 @@
+﻿title: ArmyContact1
+---
+<<show_portrait "spy_talkie">>
+???: You should take that pill, 
+<<hide_portrait>>
+<<show_portrait "Bob">>
+Bob: No.
+<<hide_portrait>>
+<<show_portrait "spy_talkie">>
+??: shshrrr...pain relief...easier escape
+<<hide_portrait>>
+<<show_portrait "Bob">>
+Bob: Told you i won't take it.
+<<hide_portrait>>
+
+<<show_portrait "Unknown">>
+????: Interesting.
+<<hide_portrait>>
+===
