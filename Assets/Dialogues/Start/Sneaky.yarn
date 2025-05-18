@@ -6,7 +6,7 @@ Bob:    Now they all want to kill me...
 Bob:    What a MESS!
 Bob:    Alright, get it together. Just need to dodge the guards and reach the exit.
 <<hide_portrait>>
-<<show_portrait "???">>
+<<show_portrait "Unknown">>
 ????:    Kinda weird though… If I were them, I’d have grabbed you right at the stair exit.
 ????:    This feels way too easy... Doesn’t it seem like a movie?
 <<hide_portrait>>

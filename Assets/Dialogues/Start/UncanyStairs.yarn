@@ -1,12 +1,12 @@
 ﻿title: UncanyStairs
 ---
-<<show_portrait "???">>
+<<show_portrait "Unknown">>
 ????:    Well done, only two floors left, right?
 <<hide_portrait>>
 <<show_portrait "Bob">>
 Bob:    Huuuuush !
 <<hide_portrait>>
-<<show_portrait "???">>
+<<show_portrait "Unknown">>
 ????:    By the way, these stairs are strange — one stairway on each side?
 ????:    Shouldn't all the stairways be in the same place?
 <<hide_portrait>>
