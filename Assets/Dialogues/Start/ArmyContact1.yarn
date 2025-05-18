@@ -1,19 +1,32 @@
 ﻿title: ArmyContact1
 ---
 <<show_portrait "Talkie">>
-???: You should take that pill,
+Agent 110: You should take that pill,
 <<hide_portrait>>
 <<show_portrait "Bob">>
 Bob: No.
 <<hide_portrait>>
 <<show_portrait "Talkie">>
-??: shshrrr...pain relief...easier escape
+Agent 110: You're still resisting? Bob, people are going to die out there.
+Agent 110: Every second you hesitate, another soul is lost.
+Agent 110: Don’t you think that means something?
 <<hide_portrait>>
+
 <<show_portrait "Bob">>
-Bob: Told you i won't take it.
+Bob: I don’t even know what’s real anymore!
+Bob: You just showed up in a corpse’s radio and told me I’m humanity’s last hope?
+Bob: How do I know this isn’t some elaborate trap?
+<<hide_portrait>>
+
+<<show_portrait "Talkie">>
+Agent 110: It’s not a test. It’s survival.
+Agent 110: You saw the bodie. You know what’s at stake.
+Agent 110: Just take the pill. It will help you stay focused.
 <<hide_portrait>>
 
 <<show_portrait "Unknown">>
-????: Interesting.
+????: He keeps coming back to the pill.
+????: Why not offer a weapon? A path to safety?
+????: No. Just... obedience.
 <<hide_portrait>>
 ===

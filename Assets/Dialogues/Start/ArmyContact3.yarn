@@ -1,13 +1,23 @@
 ﻿title: ArmyContact3
 ---
 <<show_portrait "Bob">>
-Bob: ...
+Bob: Maybe I’m not who you think I am.
+Bob: Maybe I’m just a janitor who stumbled into something horrible.
+Bob: I don’t want this responsibility.
 <<hide_portrait>>
-<<show_portrait "Unknown">>
-????: 7862. Precisely.
+
+<<show_portrait "Talkie">>
+Agent 110: Wanting is irrelevant now.
+Agent 110: The moment you touched that communicator, you stepped into the story.
+Agent 110: There's no going back.
 <<hide_portrait>>
 
 <<show_portrait "Bob">>
-Bob: ...
+Bob: You’re not giving me a choice, are you?
+<<hide_portrait>>
+
+<<show_portrait "Talkie">>
+Agent 110: You always have a choice.
+Agent 110: But there are consequences to every decision.
 <<hide_portrait>>
 ===

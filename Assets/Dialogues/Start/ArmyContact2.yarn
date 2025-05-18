@@ -1,12 +1,29 @@
 ﻿title: ArmyContact2
 ---
-<<show_portrait "Talkie">>
-???: We need that guy. Otherwise we're done for. 
-<<hide_portrait>>
-<<show_portrait "Talkie">>
-??: He has the tools. Now to see the final decision.
-<<hide_portrait>>
 <<show_portrait "Bob">>
-Bob: ...
+Bob: What exactly is in this pill?
+Bob: Is it a suppressant? A stimulant?
+Bob: I need answers before I put something in my body.
+<<hide_portrait>>
+
+<<show_portrait "Talkie">>
+Agent 110: You don’t have time for answers.
+Agent 110: This is war, Bob. You act, or you die.
+Agent 110: Or worse — everyone else dies.
+<<hide_portrait>>
+
+<<show_portrait "Bob">>
+Bob: You’re manipulating me.
+Bob: Fear doesn’t justify blind obedience!
+<<hide_portrait>>
+
+<<show_portrait "Talkie">>
+Agent 110: We all have roles to play. Yours was chosen for you.
+<<hide_portrait>>
+
+<<show_portrait "Unknown">>
+????: “Chosen” — that word again.
+????: Who chooses, Bob?
+????: Who decided what kind of story this would be?
 <<hide_portrait>>
 ===

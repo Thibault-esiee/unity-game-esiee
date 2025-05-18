@@ -6,15 +6,17 @@ Bob: This is too hard.
 <<hide_portrait>>
 
 <<show_portrait "Talkie">>
-???: Now's the chance..
+Agent 110: We can only rely on you.
 <<hide_portrait>>
 
 <<show_portrait "Bob">>
-Bob: You won. I'll take that drug.
+Bob: ...Fine.
+Bob: I’ll take the damn pill.
 <<hide_portrait>>
 
 <<show_portrait "Talkie">>
-??: Told you he'd make it.
+Agent 110: You’ve just made the bravest choice of your life.
+Agent 110: Now get moving. The Boss awaits.
 <<hide_portrait>>
 
 <<show_portrait "Unknown">>
@@ -22,6 +24,6 @@ Bob: You won. I'll take that drug.
 <<hide_portrait>>
 
 <<show_portrait "Bob">>
-Bob: Maybe..
+Bob: Yes..
 <<hide_portrait>>
 ===
