@@ -1,0 +1,20 @@
+﻿title: Ending-part2
+---
+<<show_portrait "Bob">>
+Bob: ...Fine.
+Bob: I’ll take the damn pill.
+<<hide_portrait>>
+
+<<show_portrait "Talkie">>
+Agent 110: You’ve just made the bravest choice of your life.
+Agent 110: Now get moving. The Boss awaits.
+<<hide_portrait>>
+
+<<show_portrait "Unknown">>
+????: So that's how it all began, right?
+<<hide_portrait>>
+
+<<show_portrait "Bob">>
+Bob: Yes..
+<<hide_portrait>>
+===
