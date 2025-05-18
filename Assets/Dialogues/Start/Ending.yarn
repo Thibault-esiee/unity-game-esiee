@@ -5,7 +5,7 @@ Bob: ...
 Bob: This is too hard.
 <<hide_portrait>>
 
-<<show_portrait "spy_talkie">>
+<<show_portrait "Talkie">>
 ???: Now's the chance..
 <<hide_portrait>>
 
@@ -13,7 +13,7 @@ Bob: This is too hard.
 Bob: You won. I'll take that drug.
 <<hide_portrait>>
 
-<<show_portrait "spy_talkie">>
+<<show_portrait "Talkie">>
 ??: Told you he'd make it.
 <<hide_portrait>>
 

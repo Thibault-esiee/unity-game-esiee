@@ -6,19 +6,19 @@
 <<show_portrait "Bob">>
 Bob: ...
 <<hide_portrait>>
-<<show_portrait "spy_talkie">>
+<<show_portrait "Talkie">>
 ??: shshrrr...hssrhhs....
 <<hide_portrait>>
 <<show_portrait "Bob">>
 Bob: Hello?
 <<hide_portrait>>
-<<show_portrait "spy_talkie">>
+<<show_portrait "Talkie">>
 ??: 127? Is that you? You're still alive?
 <<hide_portrait>>
 <<show_portrait "Bob">>
 Bob: Sorry, I think your friend is dead...
 <<hide_portrait>>
-<<show_portrait "spy_talkie">>
+<<show_portrait "Talkie">>
 Agent 110: Ok, listen to me. I am Agent 110. Whoever you are, you found Agent 127's body.
 Agent 110: He was our last hope, but he got caught.
 Agent 110: Now we’re counting on you. You are humanity’s last hope.
@@ -26,7 +26,7 @@ Agent 110: Now we’re counting on you. You are humanity’s last hope.
 <<show_portrait "Bob">>
 Bob: What? Me? That's ridiculous! Can't you help me escape instead? I think someone's trying to kill me.
 <<hide_portrait>>
-<<show_portrait "spy_talkie">>
+<<show_portrait "Talkie">>
 Agent 110: I can't tell you more, but you’ll have to do something very, very important.
 Agent 110: You must go all the way back to the top and eliminate the Boss of this company.
 Agent 110: If you don’t do that, we’re all finished.
@@ -35,13 +35,13 @@ Agent 110: If you don’t do that, we’re all finished.
 Bob: No way!!
 Bob: I just want to get out of here!
 <<hide_portrait>>
-<<show_portrait "spy_talkie">>
+<<show_portrait "Talkie">>
 Agent 110: Please listen to m—
 <<hide_portrait>>
 <<show_portrait "Bob">>
 Bob: Hello?
 <<hide_portrait>>
-<<show_portrait "spy_talkie">>
+<<show_portrait "Talkie">>
 Agent 110: shshrrr...hssrhhs....
 <<hide_portrait>>
 <<show_portrait "Unknown">>

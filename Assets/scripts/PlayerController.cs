@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,6 +16,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject playerModel;
     private float currentSpeed;
 
+    [SerializeField] private float fadeInDelay = 1.5f;
+    [SerializeField] private float sceneReloadDelay = 5f;
+    [SerializeField] private float fadeDuration = 3.5f;
+    
+    [Header("Death Fade Effect")]
+    [SerializeField] private Canvas deathFadeCanvas;
+    [SerializeField] private Image fadeImage;
+    
     private Vector2 moveVector;
     private Vector2 LookVector;
     private Vector3 rotation;
@@ -35,6 +45,12 @@ public class PlayerController : MonoBehaviour
 
     public GameObject DeathBody { get => deathBody; }
 
+    private bool wasMovingLastFrame = false;
+    
+    private float verticalVelocity = 0f;
+    [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private float groundedGravity = -2f;
+        
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -48,8 +64,62 @@ public class PlayerController : MonoBehaviour
             footstepsAudioSource.spatialBlend = 1.0f;
             footstepsAudioSource.volume = 1.5f;
         }
+        
+        InitializeDeathFadeCanvas();
 
         currentStepInterval = walkStepInterval;
+    }
+    
+    private void InitializeDeathFadeCanvas()
+    {
+        if (deathFadeCanvas == null)
+        {
+            GameObject canvasObject = new GameObject("DeathFadeCanvas");
+            deathFadeCanvas = canvasObject.AddComponent<Canvas>();
+            deathFadeCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            deathFadeCanvas.sortingOrder = 999;
+            
+            CanvasScaler scaler = canvasObject.AddComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1920, 1080);
+
+            canvasObject.AddComponent<GraphicRaycaster>();
+            
+            GameObject imageObject = new GameObject("FadeImage");
+            imageObject.transform.SetParent(canvasObject.transform, false);
+            
+            fadeImage = imageObject.AddComponent<Image>();
+            fadeImage.color = new Color(0, 0, 0, 0);
+            
+            RectTransform rectTransform = imageObject.GetComponent<RectTransform>();
+            rectTransform.anchorMin = Vector2.zero;
+            rectTransform.anchorMax = Vector2.one;
+            rectTransform.sizeDelta = Vector2.zero;
+            rectTransform.anchoredPosition = Vector2.zero;
+        }
+        else if (fadeImage == null && deathFadeCanvas != null)
+        {
+            GameObject imageObject = new GameObject("FadeImage");
+            imageObject.transform.SetParent(deathFadeCanvas.transform, false);
+            
+            fadeImage = imageObject.AddComponent<Image>();
+            fadeImage.color = new Color(0, 0, 0, 0);
+            
+            RectTransform rectTransform = imageObject.GetComponent<RectTransform>();
+            rectTransform.anchorMin = Vector2.zero;
+            rectTransform.anchorMax = Vector2.one;
+            rectTransform.sizeDelta = Vector2.zero;
+            rectTransform.anchoredPosition = Vector2.zero;
+        }
+        
+        if (deathFadeCanvas != null)
+        {
+            deathFadeCanvas.gameObject.SetActive(true);
+            if (fadeImage != null)
+            {
+                fadeImage.color = new Color(0, 0, 0, 0);
+            }
+        }
     }
 
     private void Update()
@@ -74,13 +144,18 @@ public class PlayerController : MonoBehaviour
 
     private void HandleFootsteps()
     {
-        if (moveInput.sqrMagnitude > 0.01f)
+        bool isMoving = moveInput.sqrMagnitude > 0.01f;
+
+        if (isMoving)
         {
-            
             footstepTimer += Time.deltaTime;
 
-            
-            if (footstepTimer >= currentStepInterval)
+            if (!wasMovingLastFrame)
+            {
+                PlayFootstepSound();
+                footstepTimer = 0f;
+            }
+            else if (footstepTimer >= currentStepInterval)
             {
                 PlayFootstepSound();
                 footstepTimer = 0f;
@@ -88,9 +163,10 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            
             footstepTimer = 0f;
         }
+
+        wasMovingLastFrame = isMoving;
     }
 
     private void PlayFootstepSound()
@@ -144,6 +220,18 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         Vector3 move = transform.right * moveVector.x + transform.forward * moveVector.y;
+
+        if (characterController.isGrounded)
+        {
+            verticalVelocity = groundedGravity;
+        }
+        else
+        {
+            verticalVelocity += gravity * Time.deltaTime;
+        }
+
+        move.y = verticalVelocity;
+
         characterController.Move(move * currentSpeed * Time.deltaTime);
     }
 
@@ -151,48 +239,10 @@ public class PlayerController : MonoBehaviour
     {
         LookVector = context.ReadValue<Vector2>();
     }
-    
-    public void OnRespawn(InputAction.CallbackContext context)
-    {
-        PlayerRespawnManager respawnManager = FindObjectOfType<PlayerRespawnManager>();
-        if (respawnManager != null)
-        {
-            respawnManager.TryRespawn();
-        }
-    }
 
     public bool IsPlayerAlive()
     {
         return !isDead;
-    }
-
-    public void Respawn()
-    {
-        
-        if (playerModel != null)
-            playerModel.SetActive(true);
-
-        
-        if (deathBody != null)
-            deathBody.SetActive(false);
-
-        
-        this.enabled = true;
-
-        
-        if (TryGetComponent<CharacterController>(out var cc))
-            cc.enabled = true;
-
-        
-        isDead = false;
-
-        
-        if (animator != null)
-        {
-            animator.SetBool("IsWalking", false);
-            animator.SetBool("IsRunning", false);
-            animator.ResetTrigger("Die_first");
-        }
     }
 
     public void Die()
@@ -220,13 +270,48 @@ public class PlayerController : MonoBehaviour
         {
             enemy.OnPlayerDeath();
         }
-
-        PlayerRespawnManager respawnManager = FindObjectOfType<PlayerRespawnManager>();
-        if (respawnManager != null && respawnManager.gameObject.activeInHierarchy)
+        
+        StartCoroutine(ReloadSceneAfterDelay());
+    }
+    
+    private IEnumerator ReloadSceneAfterDelay()
+    {
+        Debug.Log("La scène sera rechargée dans " + sceneReloadDelay + " secondes");
+        
+        yield return new WaitForSeconds(fadeInDelay);
+        
+        StartCoroutine(FadeToBlack());
+        
+        yield return new WaitForSeconds(sceneReloadDelay - fadeInDelay);
+        
+        Scene currentScene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(currentScene.name);
+        
+        Debug.Log("Scène rechargée");
+    }
+    
+    private IEnumerator FadeToBlack()
+    {
+        if (fadeImage == null)
         {
-            GameObject respawnUI = GameObject.FindGameObjectWithTag("RespawnUI");
-            if (respawnUI != null)
-                respawnUI.SetActive(true);
+            Debug.LogError("FadeImage n'est pas initialisée!");
+            yield break;
         }
+        
+        float elapsedTime = 0;
+        Color startColor = fadeImage.color;
+        Color targetColor = new Color(0, 0, 0, 1);
+        
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float normalizedTime = Mathf.Clamp01(elapsedTime / fadeDuration);
+            
+            fadeImage.color = Color.Lerp(startColor, targetColor, normalizedTime);
+            
+            yield return null;
+        }
+        
+        fadeImage.color = targetColor;
     }
 }

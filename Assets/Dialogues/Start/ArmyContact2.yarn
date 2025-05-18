@@ -1,9 +1,9 @@
 ﻿title: ArmyContact2
 ---
-<<show_portrait "spy_talkie">>
+<<show_portrait "Talkie">>
 ???: We need that guy. Otherwise we're done for. 
 <<hide_portrait>>
-<<show_portrait "spy_talkie">>
+<<show_portrait "Talkie">>
 ??: He has the tools. Now to see the final decision.
 <<hide_portrait>>
 <<show_portrait "Bob">>

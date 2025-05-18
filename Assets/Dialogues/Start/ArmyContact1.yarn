@@ -1,12 +1,12 @@
 ﻿title: ArmyContact1
 ---
-<<show_portrait "spy_talkie">>
-???: You should take that pill, 
+<<show_portrait "Talkie">>
+???: You should take that pill,
 <<hide_portrait>>
 <<show_portrait "Bob">>
 Bob: No.
 <<hide_portrait>>
-<<show_portrait "spy_talkie">>
+<<show_portrait "Talkie">>
 ??: shshrrr...pain relief...easier escape
 <<hide_portrait>>
 <<show_portrait "Bob">>

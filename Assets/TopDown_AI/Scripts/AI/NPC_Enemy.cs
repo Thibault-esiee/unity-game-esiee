@@ -8,7 +8,7 @@ public class NPC_Enemy : MonoBehaviour {
 	public float inspectTimeout; //Once the npc reaches the destination, how much time unitl in goes back.
 	public UnityEngine.AI.NavMeshAgent navMeshAgent;
 	public Animator npcAnimator;
-		public Animator characterAnimator;
+	public Animator characterAnimator;
 
     public GameObject proyectilePrefab;
 	delegate void InitState();
@@ -37,6 +37,12 @@ public class NPC_Enemy : MonoBehaviour {
 	public float patrolWaitTimeMin = 1.5f;
 	public float patrolWaitTimeMax = 3.0f;
 
+	[Header("Sound Settings")]
+	public AudioSource audioSource;
+	public AudioClip rifleSound;
+	public AudioClip shotgunSound;
+	public AudioClip knifeSound;
+
 	private bool previousIsWalking = false;
 
 	private Quaternion originalRotation;
@@ -60,19 +66,23 @@ public class NPC_Enemy : MonoBehaviour {
 		hashSpeed = Animator.StringToHash ("Speed");
 		SetWeapon (weaponType);
 		SetState (idleState);
-		//GameManager.AddToEnemyCount ();
 
 		playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+		
+		if (audioSource == null)
+		{
+			audioSource = gameObject.AddComponent<AudioSource>();
+		}
 	}
 	void SetWeapon(NPC_WeaponType newWeapon){
         npcAnimator.SetTrigger("WeaponChange");
 		npcAnimator.SetInteger ("WeaponType", (int)weaponType);
 		switch (weaponType) {
-			//case NPC_WeaponType.KNIFE:
-			//	weaponRange=1.0f;
-			//	weaponActionTime=0.2f;
-			//	weaponTime=0.4f;
-			//break;
+			case NPC_WeaponType.KNIFE:
+				weaponRange=1.0f;
+				weaponActionTime=0.2f;
+				weaponTime=0.4f;
+			break;
 			case NPC_WeaponType.RIFLE:
 				weaponRange=20.0f;
 				weaponActionTime=0.025f;
@@ -381,21 +391,33 @@ public class NPC_Enemy : MonoBehaviour {
 		if (disableShooting) return;
 		switch (weaponType) {
 			case NPC_WeaponType.KNIFE:
-			RaycastHit[] hits=Physics.SphereCastAll (weaponPivot.position,2.0f, weaponPivot.forward);
-			foreach(RaycastHit hit in hits){
-				if (hit.collider!=null && hit.collider.tag == "Player") {
-					hit.collider.GetComponent<PlayerBehavior>().DamagePlayer();
+				RaycastHit[] hits=Physics.SphereCastAll (weaponPivot.position,2.0f, weaponPivot.forward);
+				foreach(RaycastHit hit in hits){
+					if (hit.collider!=null && hit.collider.tag == "Player") {
+						hit.collider.GetComponent<PlayerBehavior>().DamagePlayer();
+					}
 				}
-			}
+				if (knifeSound != null && audioSource != null)
+				{
+					audioSource.PlayOneShot(knifeSound);
+				}
 			break;
 			case NPC_WeaponType.RIFLE:
 				GameObject bullet=GameObject.Instantiate(proyectilePrefab, weaponPivot.position,weaponPivot.rotation) as GameObject;
 				bullet.transform.Rotate(0,Random.Range(-7.5f,7.5f),0);
+				if (rifleSound != null && audioSource != null)
+				{
+					audioSource.PlayOneShot(rifleSound);
+				}
 			break;
 			case NPC_WeaponType.SHOTGUN:
 				for(int i=0;i<5;i++){
 					GameObject birdshot=GameObject.Instantiate(proyectilePrefab, weaponPivot.position,weaponPivot.rotation) as GameObject;
 					birdshot.transform.Rotate(0,Random.Range(-15,15),0);
+				}
+				if (shotgunSound != null && audioSource != null)
+				{
+					audioSource.PlayOneShot(shotgunSound);
 				}
 			break;
 		}

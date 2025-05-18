@@ -1,6 +1,6 @@
 ﻿title: NoStair
 ---
-<<show_portrait "sbire_01">>
+<<show_portrait "Sbire">>
 Agent:    You should take the elevator.
 <<hide_portrait>>
 ===

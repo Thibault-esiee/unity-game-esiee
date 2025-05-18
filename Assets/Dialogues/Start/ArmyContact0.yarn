@@ -1,0 +1,49 @@
+﻿title: Spy-drogue
+---
+<<show_portrait "Talkie">>
+Agent 110: *shshrrr... Are you still there?*
+<<hide_portrait>>
+
+<<show_portrait "Bob">>
+Bob: Yes.
+<<hide_portrait>>
+
+<<show_portrait "Talkie">>
+Agent 110: We've found a solution. Did you retrieve the box from 127's pocket?
+<<hide_portrait>>
+
+<<show_portrait "Bob">>
+Bob: Yes, I found it.
+<<hide_portrait>>
+
+<<show_portrait "Talkie">>
+Agent 110: Perfect. Take it — it will give you the courage to do your duty.
+<<hide_portrait>>
+
+<<show_portrait "Bob">>
+Bob: Are you kidding? It says "drug" on it! You want to drug me so I’ll kill people!?
+<<hide_portrait>>
+
+<<show_portrait "Talkie">>
+Agent 110: No, it's just a way to make things easier for you.  
+Agent 110: You're truly the last hope of our civilization.  
+Agent 110: We wish we could do things differently, but we’re out of time.  
+Agent 110: So take those damn pills!
+<<hide_portrait>>
+
+<<show_portrait "Bob">>
+Bob: NO!
+<<hide_portrait>>
+
+<<show_portrait "Unknown">>
+????: May I make a comment?
+<<hide_portrait>>
+
+<<show_portrait "Bob">>
+Bob: Absolutely not!
+<<hide_portrait>>
+
+<<show_portrait "Unknown">>
+????: This is all kind of weird, don’t you think...?
+<<hide_portrait>>
+===
