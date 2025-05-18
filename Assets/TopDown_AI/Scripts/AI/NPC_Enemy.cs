@@ -507,18 +507,14 @@ public class NPC_Enemy : MonoBehaviour {
 		GameObject player = GameObject.FindGameObjectWithTag("Player");
 		if (player != null)
 		{
-			// Calculer la direction vers le joueur
 			Vector3 directionToPlayer = (player.transform.position - transform.position).normalized;
 			
-			// Ne pas changer la hauteur (y) pour un mouvement de rotation horizontal uniquement
 			directionToPlayer.y = 0;
 			
-			// Créer une rotation qui regarde le joueur
 			if (directionToPlayer != Vector3.zero)
 			{
 				Quaternion targetRotation = Quaternion.LookRotation(directionToPlayer);
 				
-				// Rotation progressive (optionnel, pour un mouvement plus fluide)
 				transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
 			}
 		}
@@ -528,18 +524,14 @@ public class NPC_Enemy : MonoBehaviour {
 	{
 		isPlayerAlive = false;
 		
-		// Réinitialiser l'état de l'ennemi
 		if (currentState == NPC_EnemyState.ATTACK || currentState == NPC_EnemyState.INSPECT)
 		{
-			// Réinitialiser les animations
 			npcAnimator.SetBool("Attack", false);
 			characterAnimator.SetBool("IsShooting", false);
 			
-			// Réinitialiser le NavMeshAgent
 			navMeshAgent.isStopped = false;
 			navMeshAgent.velocity = Vector3.zero;
 			
-			// Revenir à l'état initial de patrouille
 			SetState(idleState);
 		}
 	}
@@ -551,10 +543,8 @@ public class NPC_Enemy : MonoBehaviour {
 
 	void CheckForPlayerInRange()
 	{
-		// Vérifier si le joueur est vivant avant toute action
 		if (!isPlayerAlive)
 		{
-			// Si l'ennemi était en train de tirer, réinitialiser son état
 			if (currentState == NPC_EnemyState.ATTACK)
 			{
 				SetState(idleState);
@@ -562,7 +552,6 @@ public class NPC_Enemy : MonoBehaviour {
 			return;
 		}
 
-		// Le reste du code de CheckForPlayerInRange reste identique à la version précédente
 		if (currentState == NPC_EnemyState.INSPECT || currentState == NPC_EnemyState.ATTACK) 
 		{
 			checkPlayerTimer += Time.deltaTime;
@@ -576,16 +565,12 @@ public class NPC_Enemy : MonoBehaviour {
 				{
 					float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 					
-					// Vérifier si le joueur est vivant avant de continuer
 					PlayerController playerController = player.GetComponent<PlayerController>();
 					if (playerController != null && playerController.enabled)
 					{
-						// Le code existant de recherche et de poursuite du joueur reste ici
-						// ... (garder le code précédent de CheckForPlayerInRange)
 					}
 					else 
 					{
-						// Le joueur est mort ou désactivé
 						isPlayerAlive = false;
 						SetState(idleState);
 					}
