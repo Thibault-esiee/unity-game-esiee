@@ -1,0 +1,87 @@
+using System.Collections;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
+
+public class EndingFade : MonoBehaviour
+{
+    public string sceneName;
+    public string playerTag = "Player";
+    public bool isTransporting = false;
+    public Image fadeImage;
+    private BoxCollider boxCollider;
+    public MonoBehaviour playerControllerScript;
+    public PlayerInput playerInput;
+
+    void Start()
+    {
+        boxCollider = GetComponent<BoxCollider>();
+
+        if (fadeImage != null)
+        {
+            fadeImage.color = new Color(0, 0, 0, 0);
+        }
+}
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!isTransporting && other.CompareTag(playerTag))
+        {
+            StartCoroutine(ActivateTransportBarrier());
+        }
+    }
+
+    private IEnumerator ActivateTransportBarrier()
+    {
+        isTransporting = true;
+
+        yield return new WaitForSeconds(0.5f);
+
+        if (boxCollider != null)
+        {
+            boxCollider.isTrigger = false;
+        }
+
+        OnTransportStart();
+
+        yield return StartCoroutine(FadeOut());
+    }
+
+    private IEnumerator FadeOut()
+    {
+        float elTime = 0f;
+
+        Color oColor = new Color(0, 0, 0, 0);
+        Color nColor = new Color(0, 0, 0, 1);
+
+        while (elTime < 2f)
+        {
+            float t = elTime / 2f;
+
+            if (fadeImage != null)
+            {
+                fadeImage.color = Color.Lerp(oColor, nColor, t);
+            }
+
+            elTime += Time.deltaTime;
+            yield return null;
+        }
+
+        if (fadeImage != null)
+        {
+            fadeImage.color = nColor;
+        }
+    }
+
+    private void OnTransportStart()
+    {
+        if (playerControllerScript != null)
+            playerControllerScript.enabled = false;
+
+        if (playerInput != null)
+            playerInput.enabled = false;
+
+        Debug.Log("Transport started.");
+    }
+}
