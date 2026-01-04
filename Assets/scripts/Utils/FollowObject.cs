@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FollowObject : MonoBehaviour
 {
-    public GameObject gameObject;
+    public GameObject objectToFollow;
     public GameObject target;
     public bool followVertical = false;
     public bool followLook = false;
@@ -21,10 +21,13 @@ public class FollowObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        target.transform.position = new Vector3(gameObject.transform.position.x + xOffset, (followVertical ? gameObject.transform.position.y : target.transform.position.y) + yOffset, gameObject.transform.position.z + zOffset);    
-        if (followLook)
+        if (target != null && objectToFollow != null)
         {
-            target.transform.rotation = gameObject.transform.rotation;
+            target.transform.position = new Vector3(objectToFollow.transform.position.x + xOffset, (followVertical ? objectToFollow.transform.position.y : target.transform.position.y) + yOffset, objectToFollow.transform.position.z + zOffset);    
+            if (followLook)
+            {
+                target.transform.rotation = objectToFollow.transform.rotation;
+            }
         }
     }
 }

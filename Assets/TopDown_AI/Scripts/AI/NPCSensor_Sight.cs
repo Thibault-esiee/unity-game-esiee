@@ -14,12 +14,12 @@ public class NPCSensor_Sight : NPCSensor_Base {
 	float height=1.7f;
 	public LayerMask hitTestMask;
 	Color fovColor;
-	float TARGET_LOST_COOLDOWN=1.0f,ALERTED_COOLDOWN=10.0f,lastTargetTime=float.MinValue,lastAlertTime=float.MinValue;
+	float lastTargetTime=float.MinValue,lastAlertTime=float.MinValue;
 	Vector3 _lastTargetPos;
-	bool alerted=false;
-	bool somethingSpotted=false;
-	float lastSightTime=float.MinValue;
-	float SIGHT_DELAY_TIME=0.1f; //Time a object has to stay in sight to catch our attention
+
+
+
+
 	public Color idleColor, alertedColor, attackColor;
 	public Animator characterAnimator;
 

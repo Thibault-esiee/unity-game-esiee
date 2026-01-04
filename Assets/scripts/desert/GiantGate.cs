@@ -9,6 +9,9 @@ public class GiantGate : MonoBehaviour
     public float thickness = 20f;
     public float archHeight = 50f;
     public Color gateColor = new Color(0.5f, 0.45f, 0.4f);
+    
+    [Header("Visuals")]
+    public Material gateMaterial; // Assign the glowing material here
 
     public void GenerateGate()
     {
@@ -38,7 +41,15 @@ public class GiantGate : MonoBehaviour
         block.transform.localScale = scale;
 
         MeshRenderer mr = block.GetComponent<MeshRenderer>();
-        mr.sharedMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-        mr.sharedMaterial.color = gateColor;
+        
+        if (gateMaterial != null)
+        {
+            mr.sharedMaterial = gateMaterial;
+        }
+        else
+        {
+            mr.sharedMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+            mr.sharedMaterial.color = gateColor;
+        }
     }
 }

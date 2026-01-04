@@ -206,7 +206,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnRun(InputAction.CallbackContext context)
     {
-        if (context.performed && moveVector.magnitude > 0)
+        if (context.performed && moveInput.magnitude > 0)
         {
             isRunning = !isRunning;
             currentSpeed = isRunning ? runSpeed : walkSpeed;
@@ -265,7 +265,7 @@ public class PlayerController : MonoBehaviour
         if (TryGetComponent<CharacterController>(out var cc))
             cc.enabled = false;
 
-        NPC_Enemy[] enemies = FindObjectsOfType<NPC_Enemy>();
+        NPC_Enemy[] enemies = FindObjectsByType<NPC_Enemy>(FindObjectsSortMode.None);
         foreach (NPC_Enemy enemy in enemies)
         {
             enemy.OnPlayerDeath();

@@ -7,7 +7,7 @@ public class Proyectile_Simple : MonoBehaviour {
 	public float lifeTime=3.0f;
 	public float speed=1.5f;
 
-	bool hitTest=true;
+
 	bool moving;
 	void Start () {
 

@@ -125,21 +125,44 @@ public class DesertPlayerController : MonoBehaviour
     private void Update()
     {
         if (isDead) return;
-        Move();
-        HandleMovement();
+        HandleMovement(); // Unified movement logic
         HandleFootsteps();
     }
 
     private void HandleMovement()
     {
-        Vector3 moveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
+        // 1. Get Camera directions (Projected on ground)
+        Vector3 camForward = Camera.main.transform.forward;
+        Vector3 camRight = Camera.main.transform.right;
+        camForward.y = 0;
+        camRight.y = 0;
+        camForward.Normalize();
+        camRight.Normalize();
 
+        // 2. Calculate Move Direction relative to Camera
+        Vector3 moveDirection = (camForward * moveInput.y + camRight * moveInput.x).normalized;
+
+        // 3. Rotation (Look where we go)
         if (moveDirection.sqrMagnitude > 0.01f)
         {
             Quaternion r = Quaternion.LookRotation(moveDirection, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, r, lookSensitivity);
+            transform.rotation = Quaternion.Slerp(transform.rotation, r, lookSensitivity * Time.deltaTime * 10f);
         }
-        characterController.Move(currentSpeed * Time.deltaTime * moveDirection.normalized);
+        
+        // 4. Gravity
+        if (characterController.isGrounded)
+        {
+            verticalVelocity = groundedGravity;
+        }
+        else
+        {
+            verticalVelocity += gravity * Time.deltaTime;
+        }
+
+        Vector3 velocity = moveDirection * currentSpeed;
+        velocity.y = verticalVelocity;
+
+        characterController.Move(velocity * Time.deltaTime);
     }
 
     private void HandleFootsteps()
@@ -306,7 +329,7 @@ public class DesertPlayerController : MonoBehaviour
         if (TryGetComponent<CharacterController>(out var cc))
             cc.enabled = false;
 
-        NPC_Enemy[] enemies = FindObjectsOfType<NPC_Enemy>();
+        NPC_Enemy[] enemies = FindObjectsByType<NPC_Enemy>(FindObjectsSortMode.None);
         foreach (NPC_Enemy enemy in enemies)
         {
             enemy.OnPlayerDeath();
