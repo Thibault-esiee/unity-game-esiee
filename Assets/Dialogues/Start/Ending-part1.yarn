@@ -1,0 +1,11 @@
+﻿title: Ending-part1
+---
+<<show_portrait "Bob">>
+Bob: ...
+Bob: This is too hard.
+<<hide_portrait>>
+
+<<show_portrait "Talkie">>
+Agent 110: We can only rely on you.
+<<hide_portrait>>
+===

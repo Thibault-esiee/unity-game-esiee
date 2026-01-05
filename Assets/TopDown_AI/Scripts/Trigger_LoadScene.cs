@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Trigger_LoadScene : MonoBehaviour {
 	public string sceneName;
@@ -14,7 +15,7 @@ public class Trigger_LoadScene : MonoBehaviour {
 	}
 	void OnTriggerEnter(Collider user){
 		if (user.tag == "Player") {
-			Application.LoadLevel(sceneName);
+			SceneManager.LoadScene(sceneName);
 		}
 	}
 }

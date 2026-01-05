@@ -1,0 +1,3 @@
+NPC: Who are you?
+PLAYER: Just looking around.
+NPC: Be careful. It’s not safe here.

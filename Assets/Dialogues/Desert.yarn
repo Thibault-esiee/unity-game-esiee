@@ -1,0 +1,95 @@
+title: Desert_1
+---
+<<show_portrait "Bob">>
+Bob: Wait... Do I have a weapon in my hand? How did it get there?
+<<hide_portrait>>
+<<show_portrait "Unknown">>
+????: It has always been there, Bob. You are on a mission, remember.
+<<hide_portrait>>
+<<show_portrait "Bob">>
+Bob: A mission? I don't remember anything... I just know I have to get out of here.
+<<hide_portrait>>
+===
+title: Desert_2
+---
+<<show_portrait "Unknown">>
+????: Why are you moving so fast? Are you running from something?
+<<hide_portrait>>
+<<show_portrait "Bob">>
+Bob: I'm heading towards the light. That's the exit. I have to leave this place.
+<<hide_portrait>>
+<<show_portrait "Unknown">>
+????: What if the exit isn't over there? Look around you.
+<<hide_portrait>>
+===
+title: Desert_3
+---
+<<show_portrait "Bob">>
+Bob: These buildings... Why is everything on fire? It's hell in here.
+<<hide_portrait>>
+<<show_portrait "Unknown">>
+????: Fire purifies, Bob. Or perhaps it erases traces.
+<<hide_portrait>>
+<<show_portrait "Bob">>
+Bob: What are you talking about? I'm a secret agent, I save people! I don't set cities on fire!
+<<hide_portrait>>
+<<show_portrait "Unknown">>
+????: An agent? Really? Or is that what you tell yourself to endure the sound of the flames?
+<<hide_portrait>>
+===
+title: Desert_4
+---
+<<show_portrait "Unknown">>
+????: You're starting to recognize this place, aren't you?
+<<hide_portrait>>
+<<show_portrait "Bob">>
+Bob: Shut up! I'm not listening to you! I'm reaching that door and this will all be over.
+<<hide_portrait>>
+<<show_portrait "Unknown">>
+????: Running won't change what happened. The civilians, Bob... Do you hear them?
+<<hide_portrait>>
+<<show_portrait "Bob">>
+Bob: STOP! LEAVE ME ALONE!
+<<hide_portrait>>
+<<show_portrait "Bob">>
+Bob: I... I feel heavy... The heat... I can't take it anymore... My vision is blurring...
+<<hide_portrait>>
+<<show_portrait "Unknown">>
+????: It's not the heat crushing you. It's the weight of guilt.
+<<hide_portrait>>
+<<show_portrait "Bob">>
+Bob: I just want to go home... forget all this.
+<<hide_portrait>>
+<<show_portrait "Unknown">>
+????: Forgetting has only led you here. It's time to wake up, Bob.
+<<hide_portrait>>
+===
+title: Desert_5
+---
+<<show_portrait "Bob">>
+Bob: ...
+<<hide_portrait>>
+<<show_portrait "Bob">>
+Bob: I... I can't... I can't... I can't...
+<<hide_portrait>>
+===
+title: Desert_Ending
+---
+<<show_portrait "Doctor">>
+Doctor: Medical log update. Subject is still unresponsive to the simulation.
+Doctor: Bob, listen to me. This "secret agent" life... it's a fantasy you built to escape the trauma.
+<<hide_portrait>>
+<<show_portrait "Bob_hp">>
+Bob: ...
+<<hide_portrait>>
+<<show_portrait "Doctor">>
+Doctor: You were a soldier. In the army. The mission wasn't to save the world.
+Doctor: You opened fire on civilians during that mission. That is the truth.
+<<hide_portrait>>
+<<show_portrait "Bob_hp">>
+Bob: ...
+<<hide_portrait>>
+<<show_portrait "Doctor">>
+Doctor: You killed them, Bob. And until you accept that, you will never leave this hospital.
+<<hide_portrait>>
+===
