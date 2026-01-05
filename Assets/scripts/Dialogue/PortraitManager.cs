@@ -30,6 +30,69 @@ public class PortraitManager : MonoBehaviour
     {
         portraitImage.enabled = false;
 
+        
+        if (portraitImage != null)
+        {
+            Canvas rootCanvas = portraitImage.GetComponentInParent<Canvas>();
+            if (rootCanvas != null)
+            {
+                if (rootCanvas.isRootCanvas)
+                {
+                    rootCanvas.sortingOrder = 2000;
+                    Debug.Log($"[PortraitManager] Set Canvas SortingOrder to {rootCanvas.sortingOrder}");
+                }
+                else
+                {
+                    
+                    rootCanvas = rootCanvas.rootCanvas;
+                    if (rootCanvas != null)
+                    {
+                        rootCanvas.sortingOrder = 2000;
+                        Debug.Log($"[PortraitManager] Set Root Canvas SortingOrder to {rootCanvas.sortingOrder}");
+                    }
+                }
+
+                
+                if (rootCanvas != null)
+                {
+                    CanvasScaler scaler = rootCanvas.GetComponent<CanvasScaler>();
+                    if (scaler == null)
+                    {
+                        scaler = rootCanvas.gameObject.AddComponent<CanvasScaler>();
+                        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                        scaler.referenceResolution = new Vector2(1920, 1080);
+                        scaler.matchWidthOrHeight = 0.5f;
+                        Debug.Log("[PortraitManager] Added and configured CanvasScaler (ScaleWithScreenSize)");
+                    }
+                    else if (scaler.uiScaleMode == CanvasScaler.ScaleMode.ConstantPixelSize || scaler.uiScaleMode == CanvasScaler.ScaleMode.ConstantPhysicalSize)
+                    {
+                        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                        scaler.referenceResolution = new Vector2(1920, 1080);
+                        scaler.matchWidthOrHeight = 0.5f;
+                        Debug.Log("[PortraitManager] Reconfigured CanvasScaler to ScaleWithScreenSize");
+                    }
+                }
+
+                
+                
+                RectTransform panelRect = portraitImage.transform.parent as RectTransform;
+                if (panelRect != null && !rootCanvas.Equals(panelRect.GetComponent<Canvas>())) 
+                {
+                    
+                    Debug.Log("[PortraitManager] Resetting Dialogue Panel Layout...");
+                    
+                    
+                    panelRect.anchorMin = new Vector2(0.05f, 0.05f);
+                    panelRect.anchorMax = new Vector2(0.95f, 0.95f);
+                    panelRect.pivot = new Vector2(0.5f, 0.5f);
+                    panelRect.offsetMin = Vector2.zero; 
+                    panelRect.offsetMax = Vector2.zero;
+                    
+                    
+                    LayoutRebuilder.ForceRebuildLayoutImmediate(panelRect);
+                }
+            }
+        }
 
         var dialogueRunner = FindFirstObjectByType<DialogueRunner>();
         if (dialogueRunner != null)
@@ -54,7 +117,22 @@ public class PortraitManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"[PortraitManager] No sprite found for name '{name}'");
+            
+            sprite = Resources.Load<Sprite>(name);
+            if (sprite == null) sprite = Resources.Load<Sprite>("Portraits/" + name); 
+            
+            if (sprite != null)
+            {
+                
+                portraitMap[name] = sprite; 
+                portraitImage.sprite = sprite;
+                portraitImage.enabled = true;
+                Debug.Log($"[PortraitManager] Loaded '{name}' from Resources.");
+            }
+            else
+            {
+                Debug.LogWarning($"[PortraitManager] No sprite found for name '{name}' in Dictionary OR Resources.");
+            }
         }
     }
 

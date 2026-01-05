@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[ExecuteInEditMode] // S'execute meme dans l'editeur pour voir le resultat direct
+[ExecuteInEditMode]
 public class BuildingVariation : MonoBehaviour
 {
     [Header("Réglages")]
@@ -32,13 +32,10 @@ public class BuildingVariation : MonoBehaviour
         MeshRenderer[] renderers = GetComponentsInChildren<MeshRenderer>();
         if (renderers.Length == 0) return;
 
-        // On initialise le générateur aléatoire avec la seed
         Random.InitState(randomSeed);
 
         foreach (var r in renderers)
         {
-            // 1. Récupérer la couleur actuelle du materiau (la couleur de base)
-            // Note: On suppose que tous utilisent le meme materiau de base
             Material mat = r.sharedMaterial;
             if (mat == null) continue;
 
@@ -46,8 +43,6 @@ public class BuildingVariation : MonoBehaviour
             
             Color baseColor = mat.GetColor("_BaseColor");
 
-            // 2. Calculer une variation
-            // On fait varier légèrement la teinte (Hue) et la luminosité (Value)
             float hueShift = Random.Range(-0.05f, 0.05f) * variationIntensity;
             float valShift = Random.Range(-0.2f, 0.2f) * variationIntensity;
 
@@ -59,7 +54,6 @@ public class BuildingVariation : MonoBehaviour
 
             Color finalColor = Color.HSVToRGB(H, S, V);
 
-            // 3. Appliquer via Property Block (Optimisé, ne crée pas de copie de materiau)
             r.GetPropertyBlock(_propBlock);
             _propBlock.SetColor("_BaseColor", finalColor);
             r.SetPropertyBlock(_propBlock);

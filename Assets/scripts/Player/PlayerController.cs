@@ -245,7 +245,7 @@ public class PlayerController : MonoBehaviour
         return !isDead;
     }
 
-    public void Die()
+    public void Die(bool reloadScene = true)
     {
         Debug.Log("Player touché");
         if (isDead) return;
@@ -271,12 +271,12 @@ public class PlayerController : MonoBehaviour
             enemy.OnPlayerDeath();
         }
         
-        StartCoroutine(ReloadSceneAfterDelay());
+        StartCoroutine(ReloadSceneAfterDelay(reloadScene));
     }
     
-    private IEnumerator ReloadSceneAfterDelay()
+    private IEnumerator ReloadSceneAfterDelay(bool reloadScene)
     {
-        Debug.Log("La scène sera rechargée dans " + sceneReloadDelay + " secondes");
+        Debug.Log("Sequence de mort... Reload = " + reloadScene);
         
         yield return new WaitForSeconds(fadeInDelay);
         
@@ -284,10 +284,12 @@ public class PlayerController : MonoBehaviour
         
         yield return new WaitForSeconds(sceneReloadDelay - fadeInDelay);
         
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.name);
-        
-        Debug.Log("Scène rechargée");
+        if (reloadScene)
+        {
+            Scene currentScene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(currentScene.name);
+            Debug.Log("Scène rechargée");
+        }
     }
     
     private IEnumerator FadeToBlack()

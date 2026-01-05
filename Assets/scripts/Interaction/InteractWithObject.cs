@@ -31,7 +31,7 @@ public class InteractWithObject : MonoBehaviour
     private Quaternion originalRotation;
     private Vector3 originalPosition;
     
-    // Start is called before the first frame update
+    
     void Start()
     {
         if (interactImage != null)
@@ -43,7 +43,7 @@ public class InteractWithObject : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    
 
     void Update()
     {

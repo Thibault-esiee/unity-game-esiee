@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ec66350aae54444f68cfe606fd66ff12
+guid: b0b6a09582488404987577a340ed81c2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2437845864368045201
-    second: "Gemini_Generated_Image_x12utgx12utgx12u avec arrie\u0300re-plan supprime\u0301_0"
+      213: -4787431203315678045
+    second: Bob_hp_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "Gemini_Generated_Image_x12utgx12utgx12u avec arrie\u0300re-plan supprime\u0301_0"
+      name: Bob_hp_0
       rect:
         serializedVersion: 2
-        x: 336
-        y: 148
-        width: 1869
-        height: 1336
+        x: 0
+        y: 0
+        width: 2048
+        height: 2048
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -114,8 +114,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 19cffcab5e7f4d120800000000000000
-      internalID: 2437845864368045201
+      spriteID: 3a48fbb7fa0af8db0800000000000000
+      internalID: -4787431203315678045
       vertices: []
       indices: 
       edges: []
@@ -130,8 +130,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      "Gemini_Generated_Image_x12utgx12utgx12u avec arrie\u0300re-plan supprime\u0301_0": 2437845864368045201
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

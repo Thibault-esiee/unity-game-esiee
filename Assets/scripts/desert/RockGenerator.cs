@@ -3,21 +3,21 @@ using UnityEngine;
 public class RockGenerator : MonoBehaviour
 {
     [Header("Paramètres du rocher")]
-    public int cubeCount = 10;            // Nombre de cubes par rocher
+    public int cubeCount = 10;            
     public Vector3 baseScale = new Vector3(1f, 1f, 1f);
     public float randomScaleFactor = 0.5f;
     public float randomOffset = 0.5f;
     public float randomRotation = 25f;
 
     [Header("Placement sur le terrain")]
-    public int rockCount = 50;            // Nombre total de rochers
-    public Vector2 terrainSize = new Vector2(100f, 100f); // Taille du terrain X,Z
+    public int rockCount = 50;            
+    public Vector2 terrainSize = new Vector2(100f, 100f); 
 
     [Header("Apparence")]
     public Material rockMaterial;
 
     [Header("Performance")]
-    public bool combineMeshes = true;     // Fusionner les cubes pour réduire le nombre de draw calls
+    public bool combineMeshes = true;     
 
     void Start()
     {
@@ -49,17 +49,17 @@ public class RockGenerator : MonoBehaviour
             GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
             cube.transform.parent = rock.transform;
 
-            // Taille aléatoire
+            
             Vector3 scale = baseScale + Random.insideUnitSphere * randomScaleFactor;
             cube.transform.localScale = scale;
 
-            // Position aléatoire
+            
             cube.transform.localPosition = Random.insideUnitSphere * randomOffset;
 
-            // Rotation aléatoire
+            
             cube.transform.localRotation = Random.rotation;
 
-            // Matériau
+            
             if (rockMaterial != null)
                 cube.GetComponent<MeshRenderer>().material = rockMaterial;
         }
@@ -69,7 +69,7 @@ public class RockGenerator : MonoBehaviour
             MeshCombiner.CombineChildren(rock);
         }
 
-        // Ajouter un collider
+        
         rock.AddComponent<MeshCollider>();
 
         return rock;

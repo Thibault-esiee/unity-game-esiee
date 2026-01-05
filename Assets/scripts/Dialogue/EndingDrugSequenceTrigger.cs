@@ -5,13 +5,19 @@ using UnityEngine.UI;
 using Yarn.Unity;
 using UnityEngine.InputSystem;
 
-public class StartDialogueTrigger : MonoBehaviour
+public class EndingDrugSequenceTrigger : MonoBehaviour
 {
+    [Header("Dialogue Dependencies")]
     public DialogueRunner dRunner;
     public string playerTag = "Player";
-    public string dialogName = "Start";
+    public string dialogName = "Ending"; 
+    
+    [Header("Player Control")]
     public MonoBehaviour playerControllerScript;
     public PlayerInput playerInput;
+
+    [Header("Sequence")]
+    public DrugTripSequence drugTripSequence;
 
     private bool ran = false;
 
@@ -19,7 +25,7 @@ public class StartDialogueTrigger : MonoBehaviour
     {
         if (dRunner == null)
         {
-            Debug.LogError("No DialogueRunner assigned to StartDialogueTrigger.");
+            Debug.LogError("No DialogueRunner assigned to EndingDrugSequenceTrigger.");
             return;
         }
 
@@ -32,7 +38,9 @@ public class StartDialogueTrigger : MonoBehaviour
         
         if (dRunner.IsDialogueRunning && Keyboard.current != null && Keyboard.current.kKey.wasPressedThisFrame)
         {
-            Debug.Log("Dialogue Skipped by User (Debug K)");
+            
+            
+            
             dRunner.Stop();
         }
     }
@@ -45,7 +53,6 @@ public class StartDialogueTrigger : MonoBehaviour
         {
             if (dRunner != null && !string.IsNullOrEmpty(dialogName))
             {
-                Debug.Log("Name of GO Attached: " + gameObject.name);
                 dRunner.StartDialogue(dialogName);
                 ran = true;
             }
@@ -58,6 +65,8 @@ public class StartDialogueTrigger : MonoBehaviour
 
     private void OnDialogueStart()
     {
+        
+        
         if (playerControllerScript != null)
             playerControllerScript.enabled = false;
 
@@ -67,10 +76,44 @@ public class StartDialogueTrigger : MonoBehaviour
 
     private void OnDialogueEnd()
     {
-        if (playerControllerScript != null)
-            playerControllerScript.enabled = true;
+        
+        
+        
+        
+        if (ran) 
+        {
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             if (drugTripSequence != null)
+             {
+                 drugTripSequence.StartDrugSequence();
+                 
+             }
+             else
+             {
+                 
+                if (playerControllerScript != null)
+                    playerControllerScript.enabled = true;
 
-        if (playerInput != null)
-            playerInput.enabled = true;
+                if (playerInput != null)
+                    playerInput.enabled = true;
+             }
+        }
     }
 }

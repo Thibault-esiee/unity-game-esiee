@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using Cinemachine;
 
@@ -5,27 +6,36 @@ public class DesertCameraSetup : MonoBehaviour
 {
     [Header("Settings")]
     public Transform player;
-    public Transform giantGate; // La Grande Porte
+    public Transform giantGate;
     public float distanceBehind = 15f;
     public float height = 8f;
     
+    [Header("Zoom Sequence")]
+    public float zoomDistance = 5f;
+    public float zoomHeight = 4f;
+    public float zoomDuration = 2f;
+    public float unzoomDuration = 2f;
+
     [Header("Damping")]
     public float xDamping = 1f;
     public float yDamping = 1f;
     public float zDamping = 1f;
 
     [Header("Collision")]
-    public LayerMask collisionLayers = 1; // Default layer only by default
+    public LayerMask collisionLayers = 1;
     public float minDistanceFromTarget = 2.0f;
 
     private CinemachineVirtualCamera vcam;
+    private float originalDistance;
+    private float originalHeight;
+    private Vector3 cachedGatePos;
 
     void Start()
     {
         InitializeCamera();
+        StartCoroutine(OpeningZoomSequence());
     }
 
-    // Helper pour trouver le VRAI centre visuel d'un objet (pas juste son pivot)
     Vector3 GetVisualCenter(Transform t)
     {
         if (t == null) return Vector3.zero;
@@ -39,7 +49,6 @@ public class DesertCameraSetup : MonoBehaviour
 
     void InitializeCamera()
     {
-        // 0. Désactiver les autres caméras virtuelles gênantes
         var allVcams = FindObjectsByType<CinemachineVirtualCamera>(FindObjectsSortMode.None);
         foreach (var c in allVcams)
         {
@@ -49,7 +58,6 @@ public class DesertCameraSetup : MonoBehaviour
             }
         }
 
-        // 0. S'assurer qu'il y a une Main Camera avec un CinemachineBrain
         if (Camera.main != null)
         {
             var brain = Camera.main.gameObject.GetComponent<CinemachineBrain>();
@@ -57,7 +65,6 @@ public class DesertCameraSetup : MonoBehaviour
             {
                 brain = Camera.main.gameObject.AddComponent<CinemachineBrain>();
             }
-            // FORCE INSTANT BLEND
             brain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
         }
         else
@@ -65,7 +72,6 @@ public class DesertCameraSetup : MonoBehaviour
             Debug.LogError("DesertCameraSetup: Aucune 'MainCamera' trouvée dans la scène !");
         }
 
-        // 1. Trouver les références
         if (player == null) player = GameObject.FindWithTag("Player")?.transform;
         if (giantGate == null) giantGate = FindFirstObjectByType<GiantGate>()?.transform;
 
@@ -75,10 +81,8 @@ public class DesertCameraSetup : MonoBehaviour
              return;
         }
 
-        // CALCUL DU VRAI CENTRE
-        Vector3 gatePos = GetVisualCenter(giantGate);
+        cachedGatePos = GetVisualCenter(giantGate);
 
-        // 2. Créer ou récupérer la Virtual Camera
         var existingVcam = GetComponentInChildren<CinemachineVirtualCamera>();
         if (existingVcam != null) vcam = existingVcam;
         else
@@ -90,16 +94,13 @@ public class DesertCameraSetup : MonoBehaviour
         
         vcam.m_Priority = 1000;
         
-        // Pour le LookAt, on ne peut pas passer un Vector3. 
-        // On va créer un petit objet temporaire invisible au centre de la porte
         var gateTargetObj = GameObject.Find("GATE_LOOK_TARGET");
         if (gateTargetObj == null) gateTargetObj = new GameObject("GATE_LOOK_TARGET");
-        gateTargetObj.transform.position = gatePos;
+        gateTargetObj.transform.position = cachedGatePos;
         vcam.LookAt = gateTargetObj.transform;
 
         vcam.Follow = player;
 
-        // 5. Setup Body & Aim
         var transposer = vcam.GetCinemachineComponent<CinemachineTransposer>();
         if (transposer == null) transposer = vcam.AddCinemachineComponent<CinemachineTransposer>();
         transposer.m_BindingMode = CinemachineTransposer.BindingMode.WorldSpace;
@@ -108,22 +109,20 @@ public class DesertCameraSetup : MonoBehaviour
         if (composer == null) composer = vcam.AddCinemachineComponent<CinemachineComposer>();
         composer.m_TrackedObjectOffset = new Vector3(0, 5f, 0); 
 
-        // 6. ANTI-CLIPPING: REMOVE Collider, ADD Custom Lift
-        // On supprime l'ancien collider s'il existe car il fait sauter la camera
         var oldCollider = vcam.GetComponent<CinemachineCollider>();
         if (oldCollider != null) DestroyImmediate(oldCollider);
-
-        // On ajoute notre script de levée
         var lift = vcam.GetComponent<CinemachineGroundLift>();
         if (lift == null) lift = vcam.gameObject.AddComponent<CinemachineGroundLift>();
         
-        lift.m_GroundLayer = collisionLayers; // On passe le layer configuré ici
+        lift.m_GroundLayer = collisionLayers;
         lift.m_MinHeightFromGround = 2.0f;
 
-        UpdateCameraPosition(gatePos);
+        originalDistance = distanceBehind;
+        originalHeight = height;
+
+        UpdateCameraPosition(cachedGatePos);
     }
     
-    // Surcharge pour utiliser la position calculée
     public void UpdateCameraPosition(Vector3 gatePos)
     {
          if (vcam == null || player == null) return;
@@ -136,5 +135,31 @@ public class DesertCameraSetup : MonoBehaviour
          transposer.m_XDamping = xDamping;
          transposer.m_YDamping = yDamping;
          transposer.m_ZDamping = zDamping;
+    }
+
+    IEnumerator OpeningZoomSequence()
+    {
+        distanceBehind = zoomDistance;
+        height = zoomHeight;
+        UpdateCameraPosition(cachedGatePos);
+        yield return new WaitForSeconds(zoomDuration);
+        float elapsed = 0f;
+        while (elapsed < unzoomDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / unzoomDuration;
+            
+            float smoothT = Mathf.SmoothStep(0, 1, t);
+
+            distanceBehind = Mathf.Lerp(zoomDistance, originalDistance, smoothT);
+            height = Mathf.Lerp(zoomHeight, originalHeight, smoothT);
+            
+            UpdateCameraPosition(cachedGatePos);
+            yield return null;
+        }
+
+        distanceBehind = originalDistance;
+        height = originalHeight;
+        UpdateCameraPosition(cachedGatePos);
     }
 }

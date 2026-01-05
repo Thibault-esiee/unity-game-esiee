@@ -5,16 +5,14 @@ using Cinemachine;
 public class FloatingOrigin : MonoBehaviour
 {
     [Header("Settings")]
-    public float threshold = 5000f; // Distance before reset
+    public float threshold = 5000f;
 
     [Header("Debug Info")]
-    public Vector3 accumulatedOffset; // Keep for Inspector visibility (Float)
+    public Vector3 accumulatedOffset;
     
-    // Double precision counters for logic
     public double accumulatedX;
     public double accumulatedZ;
     
-    // Singleton simple for access
     public static FloatingOrigin Instance;
 
     void Awake()
@@ -25,7 +23,6 @@ public class FloatingOrigin : MonoBehaviour
     void LateUpdate()
     {
         Vector3 cameraPos = Camera.main.transform.position;
-        // Ignore Y (Height), only check X and Z distance
         cameraPos.y = 0;
 
         if (cameraPos.magnitude > threshold)
@@ -38,26 +35,21 @@ public class FloatingOrigin : MonoBehaviour
     {
         Debug.Log($"[FloatingOrigin] Shifting world by {offset}");
         
-        // 1. Mise à jour de l'offset global (Double Precision)
         accumulatedX -= (double)offset.x;
         accumulatedZ -= (double)offset.z;
-        accumulatedOffset -= offset; // Keep float sync for debug
-
-        // 2. Déplacer tous les objets racine de la scène
+        accumulatedOffset -= offset;
         var rootObjects = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
         foreach (var go in rootObjects)
         {
             go.transform.position += offset;
         }
 
-        // 3. Informer Cinemachine
         var vcams = FindObjectsByType<CinemachineVirtualCamera>(FindObjectsSortMode.None);
         foreach (var vcam in vcams)
         {
             vcam.OnTargetObjectWarped(vcam.Follow, offset);
         }
         
-        // 4. Particles
         ParticleSystem[] particles = FindObjectsByType<ParticleSystem>(FindObjectsSortMode.None);
         foreach (ParticleSystem sys in particles)
         {
@@ -68,7 +60,6 @@ public class FloatingOrigin : MonoBehaviour
         }
     }
 
-    // Helper pour convertir une position "Monde Unity" en "Vraie Position Absolue"
     public Vector3 GetAbsolutePosition(Vector3 unityPosition)
     {
         return unityPosition + accumulatedOffset;

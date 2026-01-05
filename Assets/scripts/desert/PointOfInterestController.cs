@@ -7,7 +7,7 @@ public class PointOfInterestController : MonoBehaviour
     public Transform gate;
     public float distance = 2000f;
     public float height = 0f;
-    public Vector3 direction = new Vector3(0, 0, 1); // direction "nord" du désert
+    public Vector3 direction = new Vector3(0, 0, 1); 
 
     void LateUpdate()
     {
@@ -17,7 +17,7 @@ public class PointOfInterestController : MonoBehaviour
         targetPos.y = height;
         gate.position = targetPos;
 
-        // Toujours orientée vers le joueur
+        
         gate.LookAt(player.position);
     }
 }

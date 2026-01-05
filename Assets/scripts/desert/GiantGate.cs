@@ -11,25 +11,20 @@ public class GiantGate : MonoBehaviour
     public Color gateColor = new Color(0.5f, 0.45f, 0.4f);
     
     [Header("Visuals")]
-    public Material gateMaterial; // Assign the glowing material here
+    public Material gateMaterial;
 
     public void GenerateGate()
     {
-        // Nettoyer
         foreach (Transform child in transform)
             if (Application.isPlaying)
                 Destroy(child.gameObject);
             else
                 DestroyImmediate(child.gameObject);
 
-        // Montants gauche et droit
         CreateBlock(new Vector3(-width / 2f, height / 2f, 0), new Vector3(thickness, height, thickness));
         CreateBlock(new Vector3(width / 2f, height / 2f, 0), new Vector3(thickness, height, thickness));
 
-        // Linteau supérieur
         CreateBlock(new Vector3(0, height - (archHeight / 2f), 0), new Vector3(width, archHeight, thickness * 0.8f));
-
-        // Base solide
         CreateBlock(new Vector3(0, thickness / 2f, 0), new Vector3(width + 10f, thickness, thickness * 1.2f));
     }
 

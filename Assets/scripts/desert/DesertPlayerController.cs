@@ -125,13 +125,12 @@ public class DesertPlayerController : MonoBehaviour
     private void Update()
     {
         if (isDead) return;
-        HandleMovement(); // Unified movement logic
+        HandleMovement();
         HandleFootsteps();
     }
 
     private void HandleMovement()
     {
-        // 1. Get Camera directions (Projected on ground)
         Vector3 camForward = Camera.main.transform.forward;
         Vector3 camRight = Camera.main.transform.right;
         camForward.y = 0;
@@ -139,17 +138,14 @@ public class DesertPlayerController : MonoBehaviour
         camForward.Normalize();
         camRight.Normalize();
 
-        // 2. Calculate Move Direction relative to Camera
         Vector3 moveDirection = (camForward * moveInput.y + camRight * moveInput.x).normalized;
 
-        // 3. Rotation (Look where we go)
         if (moveDirection.sqrMagnitude > 0.01f)
         {
             Quaternion r = Quaternion.LookRotation(moveDirection, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, r, lookSensitivity * Time.deltaTime * 10f);
         }
         
-        // 4. Gravity
         if (characterController.isGrounded)
         {
             verticalVelocity = groundedGravity;
@@ -273,18 +269,14 @@ public class DesertPlayerController : MonoBehaviour
         if (isDead) return;
         Debug.Log("Player Fainting...");
         
-        // Prevent multiple calls
         isDead = true; 
         
-        // Trigger animation
         animator.SetTrigger("Faint"); 
 
-        // Disable controls
         this.enabled = false;
         if (TryGetComponent<CharacterController>(out var cc))
              cc.enabled = false;
 
-        // Start fading sequence
         StartCoroutine(FaintSequence());
     }
 
@@ -303,7 +295,6 @@ public class DesertPlayerController : MonoBehaviour
         }
         else
         {
-            // Fallback to reload if no scene name provided
             Scene currentScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(currentScene.name);
         }
