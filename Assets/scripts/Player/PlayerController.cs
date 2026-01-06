@@ -206,6 +206,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnRun(InputAction.CallbackContext context)
     {
+        /*
         if (context.performed && moveInput.magnitude > 0)
         {
             isRunning = !isRunning;
@@ -215,6 +216,7 @@ public class PlayerController : MonoBehaviour
 
             Debug.Log("Shift pressé. isRunning = " + isRunning);
         }
+        */
     }
 
     private void Move()

@@ -36,13 +36,12 @@ public class EndingDrugSequenceTrigger : MonoBehaviour
     void Update()
     {
         
+        /*
         if (dRunner.IsDialogueRunning && Keyboard.current != null && Keyboard.current.kKey.wasPressedThisFrame)
         {
-            
-            
-            
             dRunner.Stop();
         }
+        */
     }
 
     private void OnTriggerEnter(Collider other)

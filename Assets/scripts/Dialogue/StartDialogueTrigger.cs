@@ -29,12 +29,14 @@ public class StartDialogueTrigger : MonoBehaviour
 
     void Update()
     {
-        
+
+        /*
         if (dRunner.IsDialogueRunning && Keyboard.current != null && Keyboard.current.kKey.wasPressedThisFrame)
         {
             Debug.Log("Dialogue Skipped by User (Debug K)");
             dRunner.Stop();
         }
+        */
     }
 
     private void OnTriggerEnter(Collider other)
